@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-config
+  namespace: edashboard
+data:
+  POSTGRES_DB: edashboard
+  POSTGRES_USER: edashboard_user
+  # PostgreSQL配置文件
+  postgresql.conf: |
+    # 连接设置
+    listen_addresses = '*'
+    port = 5432
+    max_connections = 100
+    
+    # 认证设置
+    password_encryption = scram-sha-256
+    
+    # 日志设置
+    log_destination = 'stderr'
+    logging_collector = on
+    log_directory = 'log'
+    log_filename = 'postgresql-%Y-%m-%d_%H%M%S.log'
+    log_statement = 'all'
+    log_min_duration_statement = 1000
+    
+    # 性能设置
+    shared_buffers = 256MB
+    effective_cache_size = 1GB
+    maintenance_work_mem = 64MB
+    checkpoint_completion_target = 0.9
+    wal_buffers = 16MB
+    default_statistics_target = 100
+    
+    # 时区设置
+    timezone = 'UTC'
+    
+  pg_hba.conf: |
+    # TYPE  DATABASE        USER            ADDRESS                 METHOD
+    local   all             all                                     trust
+    host    all             all             127.0.0.1/32            scram-sha-256
+    host    all             all             ::1/128                 scram-sha-256
+    host    all             all             0.0.0.0/0               scram-sha-256 

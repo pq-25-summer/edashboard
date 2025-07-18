@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: github-sync
+  namespace: edashboard
+spec:
+  schedule: "*/30 * * * *"  # 每30分钟执行一次
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: github-sync
+            image: edashboard-backend:latest
+            command: ["python", "-m", "app.github_sync"]
+            env:
+            - name: DATABASE_URL
+              value: "postgresql://edashboard_user:edashboard_password@postgres:5432/edashboard"
+            - name: GITHUB_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: github-secret
+                  key: token
+            - name: POSTGRES_HOST_AUTH_METHOD
+              value: "scram-sha256"
+          restartPolicy: OnFailure 
