@@ -5,6 +5,7 @@ import Dashboard from './pages/Dashboard'
 import Projects from './pages/Projects'
 import Students from './pages/Students'
 import ProjectStatus from './pages/ProjectStatus'
+import Analytics from './pages/Analytics'
 import './App.css'
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
           <Route path="/projects" element={<Projects />} />
           <Route path="/students" element={<Students />} />
           <Route path="/project-status" element={<ProjectStatus />} />
+          <Route path="/analytics" element={<Analytics />} />
         </Routes>
       </Container>
     </div>

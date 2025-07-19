@@ -42,6 +42,13 @@ const Navigation: React.FC = () => {
             >
               项目状态
             </Nav.Link>
+            <Nav.Link 
+              as={Link} 
+              to="/analytics" 
+              active={location.pathname === '/analytics'}
+            >
+              技术分析
+            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

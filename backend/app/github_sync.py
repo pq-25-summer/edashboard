@@ -28,9 +28,14 @@ class GitHubSync:
     
     async def sync_all_projects(self):
         """同步所有项目的数据"""
-        # 首先更新本地仓库
-        print("正在更新本地仓库...")
-        await self.project_analyzer.update_local_repos()
+        # 检查仓库是否需要更新
+        print("检查仓库更新状态...")
+        update_status = await self.project_analyzer.check_repos_need_update()
+        repos_need_update = sum(update_status.values())
+        
+        if repos_need_update > 0:
+            print(f"⚠️  发现 {repos_need_update} 个仓库需要更新，建议先运行 git_sync.py")
+            print("继续执行分析任务...")
         
         # 分析项目状态
         print("正在分析项目状态...")

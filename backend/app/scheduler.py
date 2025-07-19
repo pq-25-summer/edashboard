@@ -37,6 +37,9 @@ class Scheduler:
         self.is_running = True
         self.logger.info(f"定时任务调度器已启动，同步间隔: {sync_interval_hours} 小时")
         
+        # 延迟30秒后执行第一次同步，避免阻塞服务启动
+        await asyncio.sleep(30)
+        
         while self.is_running:
             try:
                 # 执行同步任务
@@ -126,7 +129,8 @@ scheduler = Scheduler()
 
 async def start_background_scheduler():
     """启动后台调度器"""
-    await scheduler.start_scheduler()
+    # 异步启动调度器，不阻塞主线程
+    asyncio.create_task(scheduler.start_scheduler())
 
 
 async def stop_background_scheduler():

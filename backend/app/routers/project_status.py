@@ -9,8 +9,6 @@ import psycopg
 
 from app.database import get_db, db
 from app.models import ProjectStatus, ProjectStatusSummary
-from app.project_analyzer import ProjectAnalyzer
-from app.scheduler import scheduler
 
 router = APIRouter(prefix="/project-status", tags=["项目状态"])
 
@@ -181,61 +179,44 @@ async def get_project_status_summary(db=Depends(get_db)):
 
 @router.post("/analyze")
 async def analyze_projects():
-    """手动触发项目分析"""
-    try:
-        analyzer = ProjectAnalyzer()
-        
-        # 更新本地仓库
-        await analyzer.update_local_repos()
-        
-        # 分析项目
-        results = await analyzer.analyze_all_projects()
-        
-        return {
-            "message": "项目分析完成",
-            "analyzed_projects": len(results),
-            "results": results
-        }
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"项目分析失败: {str(e)}")
+    """手动触发项目分析 - Issue 6: 已移除，请使用独立脚本"""
+    raise HTTPException(
+        status_code=400, 
+        detail="此功能已移除。请使用独立脚本: python scripts/analyze_projects.py"
+    )
 
 
 @router.post("/update-repos")
 async def update_local_repos():
-    """手动更新本地仓库"""
-    try:
-        analyzer = ProjectAnalyzer()
-        success = await analyzer.update_local_repos()
-        
-        if success:
-            return {"message": "本地仓库更新成功"}
-        else:
-            raise HTTPException(status_code=500, detail="本地仓库更新失败")
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"更新失败: {str(e)}")
+    """手动更新本地仓库 - Issue 6: 已移除，请使用独立脚本"""
+    raise HTTPException(
+        status_code=400, 
+        detail="此功能已移除。请使用独立脚本: python scripts/update_repos.py"
+    )
 
 
 @router.post("/sync")
 async def manual_sync():
-    """手动执行完整同步"""
-    try:
-        result = await scheduler.run_manual_sync()
-        return result
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"同步失败: {str(e)}")
+    """手动执行完整同步 - Issue 6: 已移除，请使用独立脚本"""
+    raise HTTPException(
+        status_code=400, 
+        detail="此功能已移除。请使用独立脚本: python scripts/sync_data.py"
+    )
 
 
 @router.post("/analysis-only")
 async def analysis_only():
-    """仅执行项目分析"""
-    try:
-        result = await scheduler.run_analysis_only()
-        return result
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"分析失败: {str(e)}")
+    """仅执行项目分析 - Issue 6: 已移除，请使用独立脚本"""
+    raise HTTPException(
+        status_code=400, 
+        detail="此功能已移除。请使用独立脚本: python scripts/analyze_projects.py"
+    )
 
 
 @router.get("/scheduler/status")
 async def get_scheduler_status():
-    """获取调度器状态"""
-    return scheduler.get_status() 
+    """获取调度器状态 - Issue 6: 已移除"""
+    raise HTTPException(
+        status_code=400, 
+        detail="调度器已移除。请使用独立脚本查看状态: python scripts/cli.py status"
+    ) 

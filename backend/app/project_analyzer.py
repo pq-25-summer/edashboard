@@ -7,16 +7,19 @@ import os
 import subprocess
 import asyncio
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Any
 from datetime import datetime
 import logging
 
 from app.config import settings
+from app.language_analyzer import LanguageAnalyzer
+from app.database import db
 
 
 class ProjectAnalyzer:
     def __init__(self):
         self.repos_dir = Path(settings.local_repos_dir)
+        self.language_analyzer = LanguageAnalyzer()
         self.setup_logging()
     
     def setup_logging(self):
@@ -55,6 +58,9 @@ class ProjectAnalyzer:
             # 分析项目结构
             structure = await self.analyze_project_structure(repo_path)
             
+            # 分析技术栈
+            tech_stack = self.language_analyzer.analyze_project_tech_stack(repo_path)
+            
             # 获取Git信息
             git_info = await self.get_git_info(repo_path)
             
@@ -65,6 +71,7 @@ class ProjectAnalyzer:
                 'path': str(repo_path),
                 'relative_path': str(relative_path),
                 'structure': structure,
+                'tech_stack': tech_stack,
                 'git_info': git_info,
                 'quality_score': quality_score,
                 'analysis_time': datetime.now().isoformat()
@@ -260,43 +267,90 @@ class ProjectAnalyzer:
         
         return score
     
-    async def update_local_repos(self) -> bool:
-        """更新本地仓库"""
+    async def check_repos_need_update(self) -> Dict[str, bool]:
+        """检查哪些仓库需要更新"""
         if not self.repos_dir.exists():
             self.logger.error(f"本地仓库目录不存在: {self.repos_dir}")
-            return False
+            return {}
         
-        success_count = 0
-        total_count = 0
+        update_status = {}
         
         try:
             for git_dir in self.repos_dir.rglob('.git'):
                 if git_dir.is_dir():
                     project_dir = git_dir.parent
-                    total_count += 1
+                    project_key = str(project_dir.relative_to(self.repos_dir))
                     
                     try:
-                        # 执行git pull
+                        # 检查是否有远程更新
                         result = await asyncio.create_subprocess_exec(
-                            'git', 'pull',
+                            'git', 'fetch', 'origin',
                             cwd=project_dir,
                             stdout=asyncio.subprocess.PIPE,
                             stderr=asyncio.subprocess.PIPE
                         )
-                        stdout, stderr = await result.communicate()
+                        await result.communicate()
                         
                         if result.returncode == 0:
-                            success_count += 1
-                            self.logger.info(f"成功更新: {project_dir.name}")
+                            # 检查是否有新的提交
+                            log_result = await asyncio.create_subprocess_exec(
+                                'git', 'log', 'HEAD..origin/main', '--oneline',
+                                cwd=project_dir,
+                                stdout=asyncio.subprocess.PIPE,
+                                stderr=asyncio.subprocess.PIPE
+                            )
+                            stdout, stderr = await log_result.communicate()
+                            
+                            has_updates = bool(stdout.decode().strip())
+                            update_status[project_key] = has_updates
+                            
+                            if has_updates:
+                                self.logger.info(f"仓库需要更新: {project_key}")
                         else:
-                            self.logger.warning(f"更新失败: {project_dir.name} - {stderr.decode()}")
+                            update_status[project_key] = False
+                            self.logger.warning(f"检查更新失败: {project_key}")
                     
                     except Exception as e:
-                        self.logger.error(f"更新异常: {project_dir.name} - {e}")
+                        self.logger.error(f"检查更新异常: {project_key} - {e}")
+                        update_status[project_key] = False
             
-            self.logger.info(f"仓库更新完成: {success_count}/{total_count} 成功")
-            return success_count == total_count
+            self.logger.info(f"仓库更新检查完成: {sum(update_status.values())}/{len(update_status)} 需要更新")
+            return update_status
             
         except Exception as e:
-            self.logger.error(f"更新本地仓库失败: {e}")
-            return False 
+            self.logger.error(f"检查仓库更新失败: {e}")
+            return {}
+    
+    async def get_last_sync_info(self) -> Dict[str, Any]:
+        """获取最后同步信息"""
+        try:
+            async with db.get_db() as conn:
+                async with conn.cursor() as cur:
+                    await cur.execute("""
+                        SELECT sync_time, total_projects, successful_syncs, 
+                               failed_syncs, projects_with_changes
+                        FROM git_sync_logs
+                        ORDER BY sync_time DESC
+                        LIMIT 1
+                    """)
+                    result = await cur.fetchone()
+                    
+                    if result:
+                        return {
+                            'last_sync_time': result['sync_time'],
+                            'total_projects': result['total_projects'],
+                            'successful_syncs': result['successful_syncs'],
+                            'failed_syncs': result['failed_syncs'],
+                            'projects_with_changes': result['projects_with_changes']
+                        }
+                    else:
+                        return {
+                            'last_sync_time': None,
+                            'total_projects': 0,
+                            'successful_syncs': 0,
+                            'failed_syncs': 0,
+                            'projects_with_changes': 0
+                        }
+        except Exception as e:
+            self.logger.error(f"获取同步信息失败: {e}")
+            return {} 

@@ -5,7 +5,6 @@ import uvicorn
 
 from app.database import init_db
 from app.routers import projects, students, analytics, project_status
-from app.scheduler import start_background_scheduler, stop_background_scheduler
 
 
 @asynccontextmanager
@@ -13,19 +12,13 @@ async def lifespan(app: FastAPI):
     # 启动时初始化数据库
     await init_db()
     
-    # 启动后台调度器
-    import asyncio
-    scheduler_task = asyncio.create_task(start_background_scheduler())
+    # Issue 6: 移除定时任务调度器，避免阻塞API访问
+    # 后台任务现在通过独立的命令行脚本执行
     
     yield
     
-    # 关闭时的清理工作
-    await stop_background_scheduler()
-    scheduler_task.cancel()
-    try:
-        await scheduler_task
-    except asyncio.CancelledError:
-        pass
+    # 清理工作
+    pass
 
 
 app = FastAPI(
