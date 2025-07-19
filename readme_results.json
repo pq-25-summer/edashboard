@@ -1,0 +1,598 @@
+{
+  "summary": {
+    "total_repos": 23,
+    "repos_with_readme": 21,
+    "repos_without_readme": 2,
+    "readme_coverage": 91.3,
+    "total_readme_files": 63,
+    "readme_types": {
+      ".md": 63
+    }
+  },
+  "results": {
+    "ldg-aqing/llj-public": {
+      "path": "/Users/mars/jobs/pq/repos/ldg-aqing/llj-public",
+      "relative_path": "ldg-aqing/llj-public",
+      "has_readme": false,
+      "readme_files": [],
+      "readme_count": 0,
+      "total_size": 0
+    },
+    "MSN-team/MSN-Homework": {
+      "path": "/Users/mars/jobs/pq/repos/MSN-team/MSN-Homework",
+      "relative_path": "MSN-team/MSN-Homework",
+      "has_readme": true,
+      "readme_files": [
+        {
+          "name": "README.md",
+          "path": "/Users/mars/jobs/pq/repos/MSN-team/MSN-Homework/README.md",
+          "size": 4815,
+          "size_kb": 4.7
+        },
+        {
+          "name": "readme.md",
+          "path": "/Users/mars/jobs/pq/repos/MSN-team/MSN-Homework/readme.md",
+          "size": 4815,
+          "size_kb": 4.7
+        },
+        {
+          "name": "Readme.md",
+          "path": "/Users/mars/jobs/pq/repos/MSN-team/MSN-Homework/Readme.md",
+          "size": 4815,
+          "size_kb": 4.7
+        }
+      ],
+      "readme_count": 3,
+      "total_size": 14445
+    },
+    "GeminiProjects/quizgen": {
+      "path": "/Users/mars/jobs/pq/repos/GeminiProjects/quizgen",
+      "relative_path": "GeminiProjects/quizgen",
+      "has_readme": true,
+      "readme_files": [
+        {
+          "name": "README.md",
+          "path": "/Users/mars/jobs/pq/repos/GeminiProjects/quizgen/README.md",
+          "size": 5602,
+          "size_kb": 5.47
+        },
+        {
+          "name": "readme.md",
+          "path": "/Users/mars/jobs/pq/repos/GeminiProjects/quizgen/readme.md",
+          "size": 5602,
+          "size_kb": 5.47
+        },
+        {
+          "name": "Readme.md",
+          "path": "/Users/mars/jobs/pq/repos/GeminiProjects/quizgen/Readme.md",
+          "size": 5602,
+          "size_kb": 5.47
+        }
+      ],
+      "readme_count": 3,
+      "total_size": 16806
+    },
+    "L-team-ai/PQ_LTeamProject": {
+      "path": "/Users/mars/jobs/pq/repos/L-team-ai/PQ_LTeamProject",
+      "relative_path": "L-team-ai/PQ_LTeamProject",
+      "has_readme": true,
+      "readme_files": [
+        {
+          "name": "README.md",
+          "path": "/Users/mars/jobs/pq/repos/L-team-ai/PQ_LTeamProject/README.md",
+          "size": 142,
+          "size_kb": 0.14
+        },
+        {
+          "name": "readme.md",
+          "path": "/Users/mars/jobs/pq/repos/L-team-ai/PQ_LTeamProject/readme.md",
+          "size": 142,
+          "size_kb": 0.14
+        },
+        {
+          "name": "Readme.md",
+          "path": "/Users/mars/jobs/pq/repos/L-team-ai/PQ_LTeamProject/Readme.md",
+          "size": 142,
+          "size_kb": 0.14
+        }
+      ],
+      "readme_count": 3,
+      "total_size": 426
+    },
+    "team-1-0-5/ai-question": {
+      "path": "/Users/mars/jobs/pq/repos/team-1-0-5/ai-question",
+      "relative_path": "team-1-0-5/ai-question",
+      "has_readme": true,
+      "readme_files": [
+        {
+          "name": "README.md",
+          "path": "/Users/mars/jobs/pq/repos/team-1-0-5/ai-question/README.md",
+          "size": 14,
+          "size_kb": 0.01
+        },
+        {
+          "name": "readme.md",
+          "path": "/Users/mars/jobs/pq/repos/team-1-0-5/ai-question/readme.md",
+          "size": 14,
+          "size_kb": 0.01
+        },
+        {
+          "name": "Readme.md",
+          "path": "/Users/mars/jobs/pq/repos/team-1-0-5/ai-question/Readme.md",
+          "size": 14,
+          "size_kb": 0.01
+        }
+      ],
+      "readme_count": 3,
+      "total_size": 42
+    },
+    "TeamCvOriented/PQ-Project": {
+      "path": "/Users/mars/jobs/pq/repos/TeamCvOriented/PQ-Project",
+      "relative_path": "TeamCvOriented/PQ-Project",
+      "has_readme": true,
+      "readme_files": [
+        {
+          "name": "README.md",
+          "path": "/Users/mars/jobs/pq/repos/TeamCvOriented/PQ-Project/README.md",
+          "size": 12,
+          "size_kb": 0.01
+        },
+        {
+          "name": "readme.md",
+          "path": "/Users/mars/jobs/pq/repos/TeamCvOriented/PQ-Project/readme.md",
+          "size": 12,
+          "size_kb": 0.01
+        },
+        {
+          "name": "Readme.md",
+          "path": "/Users/mars/jobs/pq/repos/TeamCvOriented/PQ-Project/Readme.md",
+          "size": 12,
+          "size_kb": 0.01
+        }
+      ],
+      "readme_count": 3,
+      "total_size": 36
+    },
+    "SE-C2-X/sw-project-demo": {
+      "path": "/Users/mars/jobs/pq/repos/SE-C2-X/sw-project-demo",
+      "relative_path": "SE-C2-X/sw-project-demo",
+      "has_readme": true,
+      "readme_files": [
+        {
+          "name": "README.md",
+          "path": "/Users/mars/jobs/pq/repos/SE-C2-X/sw-project-demo/README.md",
+          "size": 17,
+          "size_kb": 0.02
+        },
+        {
+          "name": "readme.md",
+          "path": "/Users/mars/jobs/pq/repos/SE-C2-X/sw-project-demo/readme.md",
+          "size": 17,
+          "size_kb": 0.02
+        },
+        {
+          "name": "Readme.md",
+          "path": "/Users/mars/jobs/pq/repos/SE-C2-X/sw-project-demo/Readme.md",
+          "size": 17,
+          "size_kb": 0.02
+        }
+      ],
+      "readme_count": 3,
+      "total_size": 51
+    },
+    "DanielW1234/PQ-project": {
+      "path": "/Users/mars/jobs/pq/repos/DanielW1234/PQ-project",
+      "relative_path": "DanielW1234/PQ-project",
+      "has_readme": true,
+      "readme_files": [
+        {
+          "name": "README.md",
+          "path": "/Users/mars/jobs/pq/repos/DanielW1234/PQ-project/README.md",
+          "size": 12,
+          "size_kb": 0.01
+        },
+        {
+          "name": "readme.md",
+          "path": "/Users/mars/jobs/pq/repos/DanielW1234/PQ-project/readme.md",
+          "size": 12,
+          "size_kb": 0.01
+        },
+        {
+          "name": "Readme.md",
+          "path": "/Users/mars/jobs/pq/repos/DanielW1234/PQ-project/Readme.md",
+          "size": 12,
+          "size_kb": 0.01
+        }
+      ],
+      "readme_count": 3,
+      "total_size": 36
+    },
+    "teamHard-three/AI-quiz": {
+      "path": "/Users/mars/jobs/pq/repos/teamHard-three/AI-quiz",
+      "relative_path": "teamHard-three/AI-quiz",
+      "has_readme": true,
+      "readme_files": [
+        {
+          "name": "README.md",
+          "path": "/Users/mars/jobs/pq/repos/teamHard-three/AI-quiz/README.md",
+          "size": 1184,
+          "size_kb": 1.16
+        },
+        {
+          "name": "readme.md",
+          "path": "/Users/mars/jobs/pq/repos/teamHard-three/AI-quiz/readme.md",
+          "size": 1184,
+          "size_kb": 1.16
+        },
+        {
+          "name": "Readme.md",
+          "path": "/Users/mars/jobs/pq/repos/teamHard-three/AI-quiz/Readme.md",
+          "size": 1184,
+          "size_kb": 1.16
+        }
+      ],
+      "readme_count": 3,
+      "total_size": 3552
+    },
+    "TeamSummerInternship25/ConnectWork": {
+      "path": "/Users/mars/jobs/pq/repos/TeamSummerInternship25/ConnectWork",
+      "relative_path": "TeamSummerInternship25/ConnectWork",
+      "has_readme": true,
+      "readme_files": [
+        {
+          "name": "README.md",
+          "path": "/Users/mars/jobs/pq/repos/TeamSummerInternship25/ConnectWork/README.md",
+          "size": 11704,
+          "size_kb": 11.43
+        },
+        {
+          "name": "readme.md",
+          "path": "/Users/mars/jobs/pq/repos/TeamSummerInternship25/ConnectWork/readme.md",
+          "size": 11704,
+          "size_kb": 11.43
+        },
+        {
+          "name": "Readme.md",
+          "path": "/Users/mars/jobs/pq/repos/TeamSummerInternship25/ConnectWork/Readme.md",
+          "size": 11704,
+          "size_kb": 11.43
+        }
+      ],
+      "readme_count": 3,
+      "total_size": 35112
+    },
+    "sw-team-cosmogenesis/sw-project-PQ": {
+      "path": "/Users/mars/jobs/pq/repos/sw-team-cosmogenesis/sw-project-PQ",
+      "relative_path": "sw-team-cosmogenesis/sw-project-PQ",
+      "has_readme": false,
+      "readme_files": [],
+      "readme_count": 0,
+      "total_size": 0
+    },
+    "team-WWH/sw-project-demo": {
+      "path": "/Users/mars/jobs/pq/repos/team-WWH/sw-project-demo",
+      "relative_path": "team-WWH/sw-project-demo",
+      "has_readme": true,
+      "readme_files": [
+        {
+          "name": "README.md",
+          "path": "/Users/mars/jobs/pq/repos/team-WWH/sw-project-demo/README.md",
+          "size": 17,
+          "size_kb": 0.02
+        },
+        {
+          "name": "readme.md",
+          "path": "/Users/mars/jobs/pq/repos/team-WWH/sw-project-demo/readme.md",
+          "size": 17,
+          "size_kb": 0.02
+        },
+        {
+          "name": "Readme.md",
+          "path": "/Users/mars/jobs/pq/repos/team-WWH/sw-project-demo/Readme.md",
+          "size": 17,
+          "size_kb": 0.02
+        }
+      ],
+      "readme_count": 3,
+      "total_size": 51
+    },
+    "RainbowTeam706/RainbowTeam": {
+      "path": "/Users/mars/jobs/pq/repos/RainbowTeam706/RainbowTeam",
+      "relative_path": "RainbowTeam706/RainbowTeam",
+      "has_readme": true,
+      "readme_files": [
+        {
+          "name": "README.md",
+          "path": "/Users/mars/jobs/pq/repos/RainbowTeam706/RainbowTeam/README.md",
+          "size": 4388,
+          "size_kb": 4.29
+        },
+        {
+          "name": "readme.md",
+          "path": "/Users/mars/jobs/pq/repos/RainbowTeam706/RainbowTeam/readme.md",
+          "size": 4388,
+          "size_kb": 4.29
+        },
+        {
+          "name": "Readme.md",
+          "path": "/Users/mars/jobs/pq/repos/RainbowTeam706/RainbowTeam/Readme.md",
+          "size": 4388,
+          "size_kb": 4.29
+        }
+      ],
+      "readme_count": 3,
+      "total_size": 13164
+    },
+    "leyin777/qwer111": {
+      "path": "/Users/mars/jobs/pq/repos/leyin777/qwer111",
+      "relative_path": "leyin777/qwer111",
+      "has_readme": true,
+      "readme_files": [
+        {
+          "name": "README.md",
+          "path": "/Users/mars/jobs/pq/repos/leyin777/qwer111/README.md",
+          "size": 543,
+          "size_kb": 0.53
+        },
+        {
+          "name": "readme.md",
+          "path": "/Users/mars/jobs/pq/repos/leyin777/qwer111/readme.md",
+          "size": 543,
+          "size_kb": 0.53
+        },
+        {
+          "name": "Readme.md",
+          "path": "/Users/mars/jobs/pq/repos/leyin777/qwer111/Readme.md",
+          "size": 543,
+          "size_kb": 0.53
+        }
+      ],
+      "readme_count": 3,
+      "total_size": 1629
+    },
+    "HaavkTeam/PQ_repo": {
+      "path": "/Users/mars/jobs/pq/repos/HaavkTeam/PQ_repo",
+      "relative_path": "HaavkTeam/PQ_repo",
+      "has_readme": true,
+      "readme_files": [
+        {
+          "name": "README.md",
+          "path": "/Users/mars/jobs/pq/repos/HaavkTeam/PQ_repo/README.md",
+          "size": 9,
+          "size_kb": 0.01
+        },
+        {
+          "name": "readme.md",
+          "path": "/Users/mars/jobs/pq/repos/HaavkTeam/PQ_repo/readme.md",
+          "size": 9,
+          "size_kb": 0.01
+        },
+        {
+          "name": "Readme.md",
+          "path": "/Users/mars/jobs/pq/repos/HaavkTeam/PQ_repo/Readme.md",
+          "size": 9,
+          "size_kb": 0.01
+        }
+      ],
+      "readme_count": 3,
+      "total_size": 27
+    },
+    "kbdui-team/kbdui-work": {
+      "path": "/Users/mars/jobs/pq/repos/kbdui-team/kbdui-work",
+      "relative_path": "kbdui-team/kbdui-work",
+      "has_readme": true,
+      "readme_files": [
+        {
+          "name": "README.md",
+          "path": "/Users/mars/jobs/pq/repos/kbdui-team/kbdui-work/README.md",
+          "size": 2511,
+          "size_kb": 2.45
+        },
+        {
+          "name": "readme.md",
+          "path": "/Users/mars/jobs/pq/repos/kbdui-team/kbdui-work/readme.md",
+          "size": 2511,
+          "size_kb": 2.45
+        },
+        {
+          "name": "Readme.md",
+          "path": "/Users/mars/jobs/pq/repos/kbdui-team/kbdui-work/Readme.md",
+          "size": 2511,
+          "size_kb": 2.45
+        }
+      ],
+      "readme_count": 3,
+      "total_size": 7533
+    },
+    "gogogo203/internship203": {
+      "path": "/Users/mars/jobs/pq/repos/gogogo203/internship203",
+      "relative_path": "gogogo203/internship203",
+      "has_readme": true,
+      "readme_files": [
+        {
+          "name": "README.md",
+          "path": "/Users/mars/jobs/pq/repos/gogogo203/internship203/README.md",
+          "size": 0,
+          "size_kb": 0.0
+        },
+        {
+          "name": "readme.md",
+          "path": "/Users/mars/jobs/pq/repos/gogogo203/internship203/readme.md",
+          "size": 0,
+          "size_kb": 0.0
+        },
+        {
+          "name": "Readme.md",
+          "path": "/Users/mars/jobs/pq/repos/gogogo203/internship203/Readme.md",
+          "size": 0,
+          "size_kb": 0.0
+        }
+      ],
+      "readme_count": 3,
+      "total_size": 0
+    },
+    "internship-team1/demo-proj1": {
+      "path": "/Users/mars/jobs/pq/repos/internship-team1/demo-proj1",
+      "relative_path": "internship-team1/demo-proj1",
+      "has_readme": true,
+      "readme_files": [
+        {
+          "name": "README.md",
+          "path": "/Users/mars/jobs/pq/repos/internship-team1/demo-proj1/README.md",
+          "size": 2733,
+          "size_kb": 2.67
+        },
+        {
+          "name": "readme.md",
+          "path": "/Users/mars/jobs/pq/repos/internship-team1/demo-proj1/readme.md",
+          "size": 2733,
+          "size_kb": 2.67
+        },
+        {
+          "name": "Readme.md",
+          "path": "/Users/mars/jobs/pq/repos/internship-team1/demo-proj1/Readme.md",
+          "size": 2733,
+          "size_kb": 2.67
+        }
+      ],
+      "readme_count": 3,
+      "total_size": 8199
+    },
+    "WolfWolfTeam/PopQuiz": {
+      "path": "/Users/mars/jobs/pq/repos/WolfWolfTeam/PopQuiz",
+      "relative_path": "WolfWolfTeam/PopQuiz",
+      "has_readme": true,
+      "readme_files": [
+        {
+          "name": "README.md",
+          "path": "/Users/mars/jobs/pq/repos/WolfWolfTeam/PopQuiz/README.md",
+          "size": 2832,
+          "size_kb": 2.77
+        },
+        {
+          "name": "readme.md",
+          "path": "/Users/mars/jobs/pq/repos/WolfWolfTeam/PopQuiz/readme.md",
+          "size": 2832,
+          "size_kb": 2.77
+        },
+        {
+          "name": "Readme.md",
+          "path": "/Users/mars/jobs/pq/repos/WolfWolfTeam/PopQuiz/Readme.md",
+          "size": 2832,
+          "size_kb": 2.77
+        }
+      ],
+      "readme_count": 3,
+      "total_size": 8496
+    },
+    "teamwork10684/project_1": {
+      "path": "/Users/mars/jobs/pq/repos/teamwork10684/project_1",
+      "relative_path": "teamwork10684/project_1",
+      "has_readme": true,
+      "readme_files": [
+        {
+          "name": "README.md",
+          "path": "/Users/mars/jobs/pq/repos/teamwork10684/project_1/README.md",
+          "size": 2512,
+          "size_kb": 2.45
+        },
+        {
+          "name": "readme.md",
+          "path": "/Users/mars/jobs/pq/repos/teamwork10684/project_1/readme.md",
+          "size": 2512,
+          "size_kb": 2.45
+        },
+        {
+          "name": "Readme.md",
+          "path": "/Users/mars/jobs/pq/repos/teamwork10684/project_1/Readme.md",
+          "size": 2512,
+          "size_kb": 2.45
+        }
+      ],
+      "readme_count": 3,
+      "total_size": 7536
+    },
+    "a-normal-team/summer-project": {
+      "path": "/Users/mars/jobs/pq/repos/a-normal-team/summer-project",
+      "relative_path": "a-normal-team/summer-project",
+      "has_readme": true,
+      "readme_files": [
+        {
+          "name": "README.md",
+          "path": "/Users/mars/jobs/pq/repos/a-normal-team/summer-project/README.md",
+          "size": 39,
+          "size_kb": 0.04
+        },
+        {
+          "name": "readme.md",
+          "path": "/Users/mars/jobs/pq/repos/a-normal-team/summer-project/readme.md",
+          "size": 39,
+          "size_kb": 0.04
+        },
+        {
+          "name": "Readme.md",
+          "path": "/Users/mars/jobs/pq/repos/a-normal-team/summer-project/Readme.md",
+          "size": 39,
+          "size_kb": 0.04
+        }
+      ],
+      "readme_count": 3,
+      "total_size": 117
+    },
+    "AAA-sw-team/project": {
+      "path": "/Users/mars/jobs/pq/repos/AAA-sw-team/project",
+      "relative_path": "AAA-sw-team/project",
+      "has_readme": true,
+      "readme_files": [
+        {
+          "name": "README.md",
+          "path": "/Users/mars/jobs/pq/repos/AAA-sw-team/project/README.md",
+          "size": 408,
+          "size_kb": 0.4
+        },
+        {
+          "name": "readme.md",
+          "path": "/Users/mars/jobs/pq/repos/AAA-sw-team/project/readme.md",
+          "size": 408,
+          "size_kb": 0.4
+        },
+        {
+          "name": "Readme.md",
+          "path": "/Users/mars/jobs/pq/repos/AAA-sw-team/project/Readme.md",
+          "size": 408,
+          "size_kb": 0.4
+        }
+      ],
+      "readme_count": 3,
+      "total_size": 1224
+    },
+    "kevinzhangzj710/popquiz-project": {
+      "path": "/Users/mars/jobs/pq/repos/kevinzhangzj710/popquiz-project",
+      "relative_path": "kevinzhangzj710/popquiz-project",
+      "has_readme": true,
+      "readme_files": [
+        {
+          "name": "README.md",
+          "path": "/Users/mars/jobs/pq/repos/kevinzhangzj710/popquiz-project/README.md",
+          "size": 229,
+          "size_kb": 0.22
+        },
+        {
+          "name": "readme.md",
+          "path": "/Users/mars/jobs/pq/repos/kevinzhangzj710/popquiz-project/readme.md",
+          "size": 229,
+          "size_kb": 0.22
+        },
+        {
+          "name": "Readme.md",
+          "path": "/Users/mars/jobs/pq/repos/kevinzhangzj710/popquiz-project/Readme.md",
+          "size": 229,
+          "size_kb": 0.22
+        }
+      ],
+      "readme_count": 3,
+      "total_size": 687
+    }
+  },
+  "timestamp": "2025-07-19T21:37:30.147310"
+}

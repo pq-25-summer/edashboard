@@ -3,7 +3,7 @@
 调试脚本：查看GitHub Issue的原始内容和评论
 """
 
-import requests
+import httpx
 import os
 import json
 
@@ -20,7 +20,7 @@ def get_issue_content(owner: str, repo: str, issue_number: int, token: str = Non
     url = f"https://api.github.com/repos/{owner}/{repo}/issues/{issue_number}"
     
     try:
-        response = requests.get(url, headers=headers)
+        response = httpx.get(url, headers=headers)
         response.raise_for_status()
         
         issue_data = response.json()
@@ -50,7 +50,7 @@ def get_issue_content(owner: str, repo: str, issue_number: int, token: str = Non
         
         return content
         
-    except requests.exceptions.RequestException as e:
+    except httpx.exceptions.RequestException as e:
         print(f"获取Issue失败: {e}")
         return ""
 
@@ -67,7 +67,7 @@ def get_issue_comments(owner: str, repo: str, issue_number: int, token: str = No
     url = f"https://api.github.com/repos/{owner}/{repo}/issues/{issue_number}/comments"
     
     try:
-        response = requests.get(url, headers=headers)
+        response = httpx.get(url, headers=headers)
         response.raise_for_status()
         
         comments = response.json()
@@ -98,7 +98,7 @@ def get_issue_comments(owner: str, repo: str, issue_number: int, token: str = No
         
         return comments
         
-    except requests.exceptions.RequestException as e:
+    except httpx.exceptions.RequestException as e:
         print(f"获取评论失败: {e}")
         return []
 

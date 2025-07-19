@@ -92,7 +92,20 @@ python debug_issue.py
 
 ## 更新日志
 
-### v2.0 (当前版本)
+### v2.2 (当前版本)
+- ✅ 新增项目更新脚本 `update_projects.py`
+- ✅ 支持批量更新所有Git仓库
+- ✅ 智能检测仓库状态和分支信息
+- ✅ 保护本地未提交更改
+- ✅ 支持强制更新和选择性更新
+
+### v2.1
+- ✅ 新增项目克隆脚本 `clone_all.py`
+- ✅ 支持批量克隆所有学员项目
+- ✅ 自动创建 owner/repo 目录结构
+- ✅ 完善的错误处理和日志记录
+
+### v2.0
 - ✅ 新增学生GitHub用户名和个人主页链接
 - ✅ 改进数据结构和输出格式
 - ✅ 增强错误处理和数据验证
@@ -102,6 +115,57 @@ python debug_issue.py
 - ✅ 基础项目和学生信息抓取
 - ✅ GitHub API集成
 - ✅ Markdown表格解析
+
+## 项目克隆
+
+### 克隆脚本
+使用 `clone_all.py` 批量克隆所有学员项目：
+```bash
+# 克隆到指定目录
+python clone_all.py /path/to/repos
+
+# 使用自定义项目文件
+python clone_all.py /path/to/repos --projects-file custom_projects.txt
+```
+
+### 功能特点
+- ✅ 支持命令行参数指定目标目录
+- ✅ 自动创建 `owner/repo` 目录结构避免同名冲突
+- ✅ 详细的日志记录和进度显示
+- ✅ 跳过已存在的项目目录
+- ✅ 错误处理和超时控制
+
+### 使用说明
+详细使用说明请查看: [docs/clone-all-usage.md](../docs/clone-all-usage.md)
+
+## 项目更新
+
+### 更新脚本
+使用 `update_projects.py` 批量更新所有Git仓库：
+```bash
+# 更新所有仓库
+python update_projects.py /path/to/repos
+
+# 强制更新（包括有未提交更改的）
+python update_projects.py /path/to/repos --force
+
+# 列出所有找到的Git仓库
+python update_projects.py /path/to/repos --list
+
+# 更新指定仓库
+python update_projects.py /path/to/repos --repo /path/to/specific/repo
+```
+
+### 功能特点
+- ✅ 递归查找所有包含 `.git` 目录的项目
+- ✅ 自动检测仓库状态（clean/dirty）
+- ✅ 智能跳过有未提交更改的仓库
+- ✅ 支持强制更新模式
+- ✅ 支持更新单个指定仓库
+- ✅ 显示当前分支和更新内容
+
+### 使用说明
+详细使用说明请查看: [docs/update-projects-usage.md](../docs/update-projects-usage.md)
 
 ## 数据同步
 

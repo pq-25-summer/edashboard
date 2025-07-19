@@ -89,6 +89,32 @@ async def init_db():
             )
         """)
         
+        # 创建项目状态表
+        await conn.execute("""
+            CREATE TABLE IF NOT EXISTS project_statuses (
+                id SERIAL PRIMARY KEY,
+                project_id INTEGER REFERENCES projects(id) UNIQUE,
+                has_readme BOOLEAN DEFAULT FALSE,
+                readme_files TEXT[],
+                total_files INTEGER DEFAULT 0,
+                code_files INTEGER DEFAULT 0,
+                doc_files INTEGER DEFAULT 0,
+                config_files INTEGER DEFAULT 0,
+                project_size_kb DECIMAL(10,2) DEFAULT 0,
+                main_language VARCHAR(50),
+                commit_count INTEGER DEFAULT 0,
+                contributors INTEGER DEFAULT 0,
+                last_commit TEXT,
+                current_branch VARCHAR(100) DEFAULT 'main',
+                has_package_json BOOLEAN DEFAULT FALSE,
+                has_requirements_txt BOOLEAN DEFAULT FALSE,
+                has_dockerfile BOOLEAN DEFAULT FALSE,
+                quality_score INTEGER DEFAULT 0,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        """)
+        
         await conn.commit()
 
 

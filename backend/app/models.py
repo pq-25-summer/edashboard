@@ -95,4 +95,51 @@ class AnalyticsData(BaseModel):
     total_issues: int
     commits_by_student: List[dict]
     issues_by_student: List[dict]
-    recent_activity: List[dict] 
+    recent_activity: List[dict]
+
+
+class ProjectStatusBase(BaseModel):
+    project_id: int
+    has_readme: bool
+    readme_files: List[str] = []
+    total_files: int
+    code_files: int
+    doc_files: int
+    config_files: int
+    project_size_kb: float
+    main_language: Optional[str] = None
+    commit_count: int
+    contributors: int
+    last_commit: Optional[str] = None
+    current_branch: str = "main"
+    has_package_json: bool = False
+    has_requirements_txt: bool = False
+    has_dockerfile: bool = False
+    quality_score: int = 0
+
+
+class ProjectStatusCreate(ProjectStatusBase):
+    pass
+
+
+class ProjectStatus(ProjectStatusBase):
+    id: int
+    created_at: datetime
+    updated_at: datetime
+    project_name: Optional[str] = None
+    github_url: Optional[str] = None
+    
+    class Config:
+        from_attributes = True
+
+
+class ProjectStatusSummary(BaseModel):
+    total_projects: int
+    projects_with_readme: int
+    readme_coverage: float
+    avg_quality_score: float
+    language_distribution: dict
+    avg_project_size: float
+    avg_commit_count: float
+    avg_contributors: float
+    projects_by_score: dict 

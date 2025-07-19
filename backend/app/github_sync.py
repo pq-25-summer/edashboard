@@ -14,6 +14,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from app.database import db
 from app.config import settings
+from app.project_analyzer import ProjectAnalyzer
 
 
 class GitHubSync:
@@ -23,9 +24,18 @@ class GitHubSync:
             "Authorization": f"token {settings.github_token}",
             "Accept": "application/vnd.github.v3+json"
         }
+        self.project_analyzer = ProjectAnalyzer()
     
     async def sync_all_projects(self):
         """同步所有项目的数据"""
+        # 首先更新本地仓库
+        print("正在更新本地仓库...")
+        await self.project_analyzer.update_local_repos()
+        
+        # 分析项目状态
+        print("正在分析项目状态...")
+        project_statuses = await self.project_analyzer.analyze_all_projects()
+        
         # 直接使用数据库实例获取连接
         async with db.get_db() as conn:
             # 获取所有项目
@@ -38,6 +48,10 @@ class GitHubSync:
             for project in projects:
                 print(f"正在同步项目: {project['name']} ({project['github_url']})")
                 await self.sync_project(project, conn)
+            
+            # 保存项目状态到数据库
+            print("正在保存项目状态...")
+            await self.save_project_statuses(project_statuses, conn)
     
     async def sync_project(self, project: Dict[str, Any], db):
         """同步单个项目的数据"""
@@ -191,6 +205,107 @@ class GitHubSync:
             )
             result = await cur.fetchone()
             return result["id"] if result else None
+    
+    async def save_project_statuses(self, project_statuses: Dict[str, Dict], db):
+        """保存项目状态到数据库"""
+        for project_key, status_data in project_statuses.items():
+            # 查找对应的项目ID
+            project_id = await self._find_project_by_key(project_key, db)
+            if not project_id:
+                print(f"未找到项目: {project_key}")
+                continue
+            
+            structure = status_data['structure']
+            git_info = status_data['git_info']
+            
+            async with db.cursor() as cur:
+                # 检查是否已存在
+                await cur.execute(
+                    "SELECT id FROM project_statuses WHERE project_id = %s",
+                    (project_id,)
+                )
+                existing = await cur.fetchone()
+                
+                status_data_to_save = {
+                    'project_id': project_id,
+                    'has_readme': structure['has_readme'],
+                    'readme_files': structure['readme_files'],
+                    'total_files': structure['total_files'],
+                    'code_files': structure['code_files'],
+                    'doc_files': structure['doc_files'],
+                    'config_files': structure['config_files'],
+                    'project_size_kb': structure['project_size_kb'],
+                    'main_language': structure['main_language'],
+                    'commit_count': git_info['commit_count'],
+                    'contributors': git_info['contributors'],
+                    'last_commit': git_info['last_commit'],
+                    'current_branch': git_info['branch'],
+                    'has_package_json': structure['has_package_json'],
+                    'has_requirements_txt': structure['has_requirements_txt'],
+                    'has_dockerfile': structure['has_dockerfile'],
+                    'quality_score': status_data['quality_score']
+                }
+                
+                if existing:
+                    # 更新现有记录
+                    await cur.execute("""
+                        UPDATE project_statuses SET
+                            has_readme = %(has_readme)s,
+                            readme_files = %(readme_files)s,
+                            total_files = %(total_files)s,
+                            code_files = %(code_files)s,
+                            doc_files = %(doc_files)s,
+                            config_files = %(config_files)s,
+                            project_size_kb = %(project_size_kb)s,
+                            main_language = %(main_language)s,
+                            commit_count = %(commit_count)s,
+                            contributors = %(contributors)s,
+                            last_commit = %(last_commit)s,
+                            current_branch = %(current_branch)s,
+                            has_package_json = %(has_package_json)s,
+                            has_requirements_txt = %(has_requirements_txt)s,
+                            has_dockerfile = %(has_dockerfile)s,
+                            quality_score = %(quality_score)s,
+                            updated_at = NOW()
+                        WHERE project_id = %(project_id)s
+                    """, status_data_to_save)
+                else:
+                    # 插入新记录
+                    await cur.execute("""
+                        INSERT INTO project_statuses (
+                            project_id, has_readme, readme_files, total_files, code_files,
+                            doc_files, config_files, project_size_kb, main_language,
+                            commit_count, contributors, last_commit, current_branch,
+                            has_package_json, has_requirements_txt, has_dockerfile,
+                            quality_score, created_at, updated_at
+                        ) VALUES (
+                            %(project_id)s, %(has_readme)s, %(readme_files)s, %(total_files)s,
+                            %(code_files)s, %(doc_files)s, %(config_files)s, %(project_size_kb)s,
+                            %(main_language)s, %(commit_count)s, %(contributors)s, %(last_commit)s,
+                            %(current_branch)s, %(has_package_json)s, %(has_requirements_txt)s,
+                            %(has_dockerfile)s, %(quality_score)s, NOW(), NOW()
+                        )
+                    """, status_data_to_save)
+                
+                await db.commit()
+                print(f"已保存项目状态: {project_key}")
+    
+    async def _find_project_by_key(self, project_key: str, db) -> int:
+        """根据项目键查找项目ID"""
+        # 从project_key中提取owner和repo
+        parts = project_key.split('/')
+        if len(parts) >= 2:
+            owner, repo = parts[0], parts[1]
+            
+            async with db.cursor() as cur:
+                await cur.execute(
+                    "SELECT id FROM projects WHERE github_url LIKE %s",
+                    (f"%{owner}/{repo}%",)
+                )
+                result = await cur.fetchone()
+                return result["id"] if result else None
+        
+        return None
     
     def _extract_owner_repo(self, github_url: str) -> tuple:
         """从GitHub URL提取owner和repo"""

@@ -33,4 +33,45 @@
   background: white;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* 项目状态页面样式 */
+.project-status-card {
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.project-status-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.project-name-link {
+  color: #007bff;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.project-name-link:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+.github-link {
+  word-break: break-all;
+  color: #28a745;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.github-link:hover {
+  color: #1e7e34;
+  text-decoration: underline;
+}
+
+.github-button {
+  transition: all 0.2s;
+}
+
+.github-button:hover {
+  transform: scale(1.05);
 } 

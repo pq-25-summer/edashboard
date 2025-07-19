@@ -4,15 +4,28 @@ from contextlib import asynccontextmanager
 import uvicorn
 
 from app.database import init_db
-from app.routers import projects, students, analytics
+from app.routers import projects, students, analytics, project_status
+from app.scheduler import start_background_scheduler, stop_background_scheduler
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # 启动时初始化数据库
     await init_db()
+    
+    # 启动后台调度器
+    import asyncio
+    scheduler_task = asyncio.create_task(start_background_scheduler())
+    
     yield
+    
     # 关闭时的清理工作
+    await stop_background_scheduler()
+    scheduler_task.cancel()
+    try:
+        await scheduler_task
+    except asyncio.CancelledError:
+        pass
 
 
 app = FastAPI(
@@ -35,6 +48,7 @@ app.add_middleware(
 app.include_router(projects.router, prefix="/api/projects", tags=["projects"])
 app.include_router(students.router, prefix="/api/students", tags=["students"])
 app.include_router(analytics.router, prefix="/api/analytics", tags=["analytics"])
+app.include_router(project_status.router, prefix="/api", tags=["project-status"])
 
 
 @app.get("/")
