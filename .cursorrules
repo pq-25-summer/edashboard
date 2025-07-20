@@ -1,0 +1,140 @@
+# 软件工程课看板系统 - 通用提示词配置
+
+## 项目概述
+这是一个用于分析和查看学员们学习情况的看板系统，通过分析各个小组的GitHub项目进度来评估工作的贡献和质量。
+
+## 技术架构
+- **后端**: Python FastAPI + PostgreSQL + GitHub API
+- **前端**: React TypeScript + Vite + React Bootstrap + ECharts
+- **基础设施**: Kubernetes + Docker
+
+## 通用编码规范
+
+### Python 后端规范
+- 使用 FastAPI 框架，遵循 RESTful API 设计
+- 使用 Pydantic 进行数据验证
+- 使用 async/await 进行异步操作
+- 数据库操作使用 psycopg3
+- 所有配置通过 `backend/app/config.py` 管理
+- 日志使用 Python 标准 logging 模块
+
+### TypeScript 前端规范
+- 使用 React 18+ 和 TypeScript
+- 使用 Vite 作为构建工具
+- 使用 React Bootstrap 作为 UI 组件库
+- 使用 ECharts for React 进行数据可视化
+- 遵循 React Hooks 最佳实践
+
+### 数据库规范
+- 使用 PostgreSQL 作为主数据库
+- 表名使用 snake_case
+- 字段名使用 snake_case
+- 主键统一使用 `id` 字段
+- 时间戳字段使用 `created_at` 和 `updated_at`
+
+## 特定任务实现模式
+
+### 1. 新增 API 端点模式
+```python
+# 在 backend/app/routers/ 下创建新的路由文件
+# 在 main.py 中注册路由
+# 使用 Pydantic 模型定义请求/响应格式
+# 实现异步数据库操作
+# 添加适当的错误处理
+```
+
+### 2. 新增前端页面模式
+```typescript
+// 在 src/pages/ 下创建新页面组件
+// 在 src/components/ 下创建可复用组件
+// 使用 React Bootstrap 组件
+// 实现数据获取和状态管理
+// 添加适当的加载和错误状态
+```
+
+### 3. 数据库迁移模式
+```python
+# 使用 Alembic 进行数据库迁移
+# 在 backend/app/models.py 中定义模型
+# 创建迁移文件并测试
+# 更新数据库连接配置
+```
+
+### 4. 脚本开发模式
+```python
+# 在 scripts/ 目录下创建脚本
+# 使用 argparse 处理命令行参数
+# 实现日志记录和错误处理
+# 支持 --dry-run 模式进行测试
+```
+
+## 项目特定规则
+
+### GitHub 数据同步
+- 使用 GitHub API 获取项目数据
+- 实现增量同步避免重复请求
+- 处理 API 限制和错误重试
+- 保存同步日志到数据库
+
+### 项目分析
+- 分析项目文件结构和代码质量
+- 识别编程语言和技术栈
+- 计算项目评分和活跃度指标
+- 生成分析报告和建议
+
+### 数据可视化
+- 使用 ECharts 创建交互式图表
+- 支持多种图表类型（柱状图、饼图、折线图等）
+- 实现数据筛选和排序功能
+- 确保图表响应式设计
+
+## 开发工作流
+
+### 1. 功能开发流程
+1. 在 `docs/` 下创建功能说明文档
+2. 实现后端 API 和数据库模型
+3. 实现前端页面和组件
+4. 添加测试和错误处理
+5. 更新相关文档
+
+### 2. 部署流程
+1. 更新 Kubernetes 配置文件
+2. 构建 Docker 镜像
+3. 部署到开发/生产环境
+4. 验证功能正常
+
+### 3. 数据同步流程
+1. 运行 `scripts/git_sync.py` 同步仓库
+2. 运行 `scripts/analyze_project_status.py` 分析项目
+3. 检查同步日志和错误
+4. 更新项目状态数据
+
+## 常见任务模板
+
+### 添加新的数据表
+1. 在 `backend/app/models.py` 中定义模型
+2. 创建 Alembic 迁移文件
+3. 在 `backend/app/database.py` 中注册模型
+4. 创建相应的 Pydantic 模型
+5. 实现 CRUD 操作
+
+### 添加新的 API 端点
+1. 在对应的 router 文件中添加端点
+2. 定义请求/响应模型
+3. 实现业务逻辑
+4. 添加错误处理
+5. 更新 API 文档
+
+### 添加新的前端页面
+1. 创建页面组件
+2. 添加路由配置
+3. 实现数据获取逻辑
+4. 添加 UI 组件和样式
+5. 测试页面功能
+
+## 注意事项
+- 所有敏感信息（如 GitHub token）通过环境变量管理
+- 开发环境使用 `.env` 文件，生产环境使用 Kubernetes Secrets
+- 数据库连接在开发环境使用信任模式，生产环境使用 SCRAM-SHA-256 认证
+- 所有脚本都应该支持 `--help` 参数显示使用说明
+- 重要功能变更需要更新相关文档 

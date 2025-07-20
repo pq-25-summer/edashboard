@@ -1,0 +1,340 @@
+# 开发环境配置
+# 用于本地Kubernetes开发环境
+
+---
+# 命名空间
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: edashboard-dev
+  labels:
+    name: edashboard-dev
+    environment: development
+
+---
+# PostgreSQL数据库配置
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-config-dev
+  namespace: edashboard-dev
+data:
+  POSTGRES_DB: edashboard
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: password
+
+---
+# PostgreSQL密钥
+apiVersion: v1
+kind: Secret
+metadata:
+  name: postgres-secret-dev
+  namespace: edashboard-dev
+type: Opaque
+data:
+  password: cGFzc3dvcmQ=  # "password" in base64
+
+---
+# PostgreSQL持久化存储
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc-dev
+  namespace: edashboard-dev
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: standard
+
+---
+# PostgreSQL部署
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-dev
+  namespace: edashboard-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-dev
+  template:
+    metadata:
+      labels:
+        app: postgres-dev
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:15
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_DB
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-config-dev
+              key: POSTGRES_DB
+        - name: POSTGRES_USER
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-config-dev
+              key: POSTGRES_USER
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret-dev
+              key: password
+        volumeMounts:
+        - name: postgres-storage
+          mountPath: /var/lib/postgresql/data
+      volumes:
+      - name: postgres-storage
+        persistentVolumeClaim:
+          claimName: postgres-pvc-dev
+
+---
+# PostgreSQL服务
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-dev
+  namespace: edashboard-dev
+spec:
+  selector:
+    app: postgres-dev
+  ports:
+  - port: 5432
+    targetPort: 5432
+  type: ClusterIP
+
+---
+# 后端配置
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-config-dev
+  namespace: edashboard-dev
+data:
+  DATABASE_URL: "postgresql://postgres:password@postgres-dev:5432/edashboard"
+  GITHUB_API_BASE_URL: "https://api.github.com"
+  APP_NAME: "软件工程课看板系统"
+  DEBUG: "true"
+  LOCAL_REPOS_DIR: "/app/repos"
+
+---
+# 后端部署
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-dev
+  namespace: edashboard-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend-dev
+  template:
+    metadata:
+      labels:
+        app: backend-dev
+    spec:
+      containers:
+      - name: backend
+        image: edashboard-backend:dev
+        ports:
+        - containerPort: 8000
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: backend-config-dev
+              key: DATABASE_URL
+        - name: GITHUB_API_BASE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: backend-config-dev
+              key: GITHUB_API_BASE_URL
+        - name: APP_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: backend-config-dev
+              key: APP_NAME
+        - name: DEBUG
+          valueFrom:
+            configMapKeyRef:
+              name: backend-config-dev
+              key: DEBUG
+        - name: LOCAL_REPOS_DIR
+          valueFrom:
+            configMapKeyRef:
+              name: backend-config-dev
+              key: LOCAL_REPOS_DIR
+        - name: GITHUB_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: github-secret-dev
+              key: token
+        volumeMounts:
+        - name: repos-volume
+          mountPath: /app/repos
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+      volumes:
+      - name: repos-volume
+        hostPath:
+          path: /Users/mars/jobs/pq/repos
+          type: Directory
+
+---
+# 后端服务
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-dev
+  namespace: edashboard-dev
+spec:
+  selector:
+    app: backend-dev
+  ports:
+  - port: 8000
+    targetPort: 8000
+  type: ClusterIP
+
+---
+# 前端部署
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-dev
+  namespace: edashboard-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend-dev
+  template:
+    metadata:
+      labels:
+        app: frontend-dev
+    spec:
+      containers:
+      - name: frontend
+        image: edashboard-frontend:dev
+        ports:
+        - containerPort: 3000
+        env:
+        - name: REACT_APP_API_URL
+          value: "http://backend-dev:8000"
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+
+---
+# 前端服务
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-dev
+  namespace: edashboard-dev
+spec:
+  selector:
+    app: frontend-dev
+  ports:
+  - port: 3000
+    targetPort: 3000
+  type: ClusterIP
+
+---
+# 后台任务CronJob
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: sync-data-job-dev
+  namespace: edashboard-dev
+spec:
+  schedule: "0 */6 * * *"  # 每6小时执行一次
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: sync-data
+            image: edashboard-backend:dev
+            command: ["python", "/app/scripts/sync_data.py"]
+            env:
+            - name: DATABASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-config-dev
+                  key: DATABASE_URL
+            - name: GITHUB_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: github-secret-dev
+                  key: token
+            - name: LOCAL_REPOS_DIR
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-config-dev
+                  key: LOCAL_REPOS_DIR
+            volumeMounts:
+            - name: repos-volume
+              mountPath: /app/repos
+          volumes:
+          - name: repos-volume
+            hostPath:
+              path: /Users/mars/jobs/pq/repos
+              type: Directory
+          restartPolicy: OnFailure
+
+---
+# GitHub密钥（需要手动创建）
+apiVersion: v1
+kind: Secret
+metadata:
+  name: github-secret-dev
+  namespace: edashboard-dev
+type: Opaque
+data:
+  token: ""  # 需要手动添加GitHub token的base64编码
+
+---
+# 入口配置
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: edashboard-ingress-dev
+  namespace: edashboard-dev
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: edashboard-dev.local
+    http:
+      paths:
+      - path: /api
+        pathType: Prefix
+        backend:
+          service:
+            name: backend-dev
+            port:
+              number: 8000
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: frontend-dev
+            port:
+              number: 3000 
