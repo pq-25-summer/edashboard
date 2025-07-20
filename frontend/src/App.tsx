@@ -8,6 +8,7 @@ import ProjectStatus from './pages/ProjectStatus'
 import Analytics from './pages/Analytics'
 import TestAnalysis from './pages/TestAnalysis'
 import GitWorkflow from './pages/GitWorkflow'
+import ProjectProgress from './pages/ProjectProgress'
 import './App.css'
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
           <Route path="/analytics" element={<Analytics />} />
           <Route path="/test-analysis" element={<TestAnalysis />} />
           <Route path="/git-workflow" element={<GitWorkflow />} />
+          <Route path="/project-progress" element={<ProjectProgress />} />
         </Routes>
       </Container>
     </div>

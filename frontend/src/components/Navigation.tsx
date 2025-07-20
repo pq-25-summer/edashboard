@@ -63,6 +63,13 @@ const Navigation: React.FC = () => {
             >
               Git工作流程
             </Nav.Link>
+            <Nav.Link 
+              as={Link} 
+              to="/project-progress" 
+              active={location.pathname === '/project-progress'}
+            >
+              项目进度
+            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

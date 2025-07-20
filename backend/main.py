@@ -4,7 +4,7 @@ from contextlib import asynccontextmanager
 import uvicorn
 
 from app.database import init_db
-from app.routers import projects, students, analytics, project_status, test_analysis, git_workflow
+from app.routers import projects, students, analytics, project_status, test_analysis, git_workflow, project_progress
 
 
 @asynccontextmanager
@@ -44,6 +44,7 @@ app.include_router(analytics.router, prefix="/api/analytics", tags=["analytics"]
 app.include_router(project_status.router, prefix="/api", tags=["project-status"])
 app.include_router(test_analysis.router, prefix="/api", tags=["test-analysis"])
 app.include_router(git_workflow.router)
+app.include_router(project_progress.router)
 
 
 @app.get("/")

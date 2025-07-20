@@ -208,6 +208,66 @@ async def run_issue_driven_sync():
         return False
 
 
+async def run_project_progress_sync():
+    """同步项目进度数据"""
+    logger = setup_logging()
+    
+    print("📅 同步项目进度数据...")
+    logger.info("开始同步项目进度数据")
+    
+    try:
+        # 运行项目进度数据同步脚本
+        import subprocess
+        result = subprocess.run([
+            sys.executable, 'scripts/sync_project_progress.py'
+        ], capture_output=True, text=True)
+        
+        if result.returncode == 0:
+            logger.info("项目进度数据同步完成")
+            print("✅ 项目进度数据同步完成")
+            print(result.stdout)
+            return True
+        else:
+            logger.error(f"项目进度数据同步失败: {result.stderr}")
+            print(f"❌ 项目进度数据同步失败: {result.stderr}")
+            return False
+        
+    except Exception as e:
+        logger.error(f"项目进度数据同步失败: {e}")
+        print(f"❌ 项目进度数据同步失败: {e}")
+        return False
+
+
+async def run_project_progress_sync_dry_run():
+    """试运行项目进度数据同步"""
+    logger = setup_logging()
+    
+    print("🧪 试运行项目进度数据同步...")
+    logger.info("开始试运行项目进度数据同步")
+    
+    try:
+        # 运行项目进度数据同步脚本（试运行模式）
+        import subprocess
+        result = subprocess.run([
+            sys.executable, 'scripts/sync_project_progress.py', '--dry-run'
+        ], capture_output=True, text=True)
+        
+        if result.returncode == 0:
+            logger.info("项目进度数据同步试运行完成")
+            print("✅ 项目进度数据同步试运行完成")
+            print(result.stdout)
+            return True
+        else:
+            logger.error(f"项目进度数据同步试运行失败: {result.stderr}")
+            print(f"❌ 项目进度数据同步试运行失败: {result.stderr}")
+            return False
+        
+    except Exception as e:
+        logger.error(f"项目进度数据同步试运行失败: {e}")
+        print(f"❌ 项目进度数据同步试运行失败: {e}")
+        return False
+
+
 async def show_status():
     """显示系统状态"""
     logger = setup_logging()
@@ -251,6 +311,19 @@ async def show_status():
                 """)
                 issue_driven_stats = await cur.fetchone()
                 
+                # 项目进度统计
+                await cur.execute("""
+                    SELECT 
+                        COUNT(DISTINCT project_id) as projects_with_progress,
+                        SUM(commit_count) as total_commits,
+                        SUM(lines_added) as total_lines_added,
+                        SUM(issues_created) as total_issues_created,
+                        SUM(issues_closed) as total_issues_closed,
+                        COUNT(DISTINCT date) as tracking_days
+                    FROM project_progress
+                """)
+                progress_stats = await cur.fetchone()
+                
                 # 最近更新时间
                 await cur.execute("SELECT MAX(updated_at) FROM project_statuses")
                 last_update_result = await cur.fetchone()
@@ -267,6 +340,14 @@ async def show_status():
         print(f"   - 使用Issue驱动开发: {issue_driven_stats['projects_with_issue_driven']} ({issue_driven_stats['projects_with_issue_driven']/project_count*100:.1f}%)")
         print(f"   - 平均评分: {issue_driven_stats['avg_issue_driven_score']:.1f}/100")
         print(f"   - 平均提交-Issue关联率: {issue_driven_stats['avg_commit_issue_ratio']:.1f}%")
+        
+        print(f"📅 项目进度跟踪:")
+        print(f"   - 有进度数据的项目: {progress_stats['projects_with_progress']} ({progress_stats['projects_with_progress']/project_count*100:.1f}%)")
+        print(f"   - 总提交数: {progress_stats['total_commits']}")
+        print(f"   - 总代码行数: {progress_stats['total_lines_added']}")
+        print(f"   - 总Issue创建: {progress_stats['total_issues_created']}")
+        print(f"   - 总Issue关闭: {progress_stats['total_issues_closed']}")
+        print(f"   - 跟踪天数: {progress_stats['tracking_days']}")
         
         if last_update:
             print(f"   - 最后更新时间: {last_update}")
@@ -295,12 +376,14 @@ def main():
   python cli.py status                  # 查看系统状态
   python cli.py issue-driven-analysis   # 执行Issue驱动开发分析
   python cli.py issue-driven-sync       # 同步Issue驱动开发数据
+  python cli.py project-progress-sync   # 同步项目进度数据
+  python cli.py project-progress-dry-run # 试运行项目进度数据同步
         """
     )
     
     parser.add_argument(
         'command',
-        choices=['sync', 'analyze', 'git-sync', 'tech-stack', 'status', 'issue-driven-analysis', 'issue-driven-sync'],
+        choices=['sync', 'analyze', 'git-sync', 'tech-stack', 'status', 'issue-driven-analysis', 'issue-driven-sync', 'project-progress-sync', 'project-progress-dry-run'],
         help='要执行的命令'
     )
     
@@ -335,6 +418,10 @@ def main():
         success = asyncio.run(run_issue_driven_analysis())
     elif args.command == 'issue-driven-sync':
         success = asyncio.run(run_issue_driven_sync())
+    elif args.command == 'project-progress-sync':
+        success = asyncio.run(run_project_progress_sync())
+    elif args.command == 'project-progress-dry-run':
+        success = asyncio.run(run_project_progress_sync_dry_run())
     else:
         print(f"❌ 未知命令: {args.command}")
         return 1

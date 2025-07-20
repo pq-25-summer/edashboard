@@ -74,4 +74,111 @@
 
 .github-button:hover {
   transform: scale(1.05);
+}
+
+/* 项目进度跟踪页面样式 */
+.calendar-container {
+  margin: 20px 0;
+}
+
+.calendar {
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.calendar-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.calendar-day-header {
+  padding: 10px;
+  text-align: center;
+  font-weight: bold;
+  color: #495057;
+  border-right: 1px solid #dee2e6;
+}
+
+.calendar-day-header:last-child {
+  border-right: none;
+}
+
+.calendar-week {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  border-bottom: 1px solid #dee2e6;
+}
+
+.calendar-week:last-child {
+  border-bottom: none;
+}
+
+.calendar-day {
+  min-height: 80px;
+  padding: 8px;
+  border-right: 1px solid #dee2e6;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  position: relative;
+}
+
+.calendar-day:last-child {
+  border-right: none;
+}
+
+.calendar-day:hover {
+  background-color: #f8f9fa;
+}
+
+.calendar-day.selected {
+  background-color: #e3f2fd;
+  border: 2px solid #2196f3;
+}
+
+.calendar-day.has-data {
+  background-color: #f0f8ff;
+}
+
+.calendar-date {
+  font-size: 14px;
+  font-weight: bold;
+  color: #495057;
+  margin-bottom: 4px;
+}
+
+.calendar-data {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.commit-indicator {
+  display: flex;
+  justify-content: center;
+}
+
+.issue-indicator {
+  display: flex;
+  justify-content: center;
+  gap: 2px;
+  font-size: 10px;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .calendar-day {
+    min-height: 60px;
+    padding: 4px;
+  }
+  
+  .calendar-date {
+    font-size: 12px;
+  }
+  
+  .issue-indicator {
+    font-size: 8px;
+  }
 } 

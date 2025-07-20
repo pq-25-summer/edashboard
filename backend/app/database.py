@@ -247,6 +247,37 @@ async def init_db():
         except Exception as e:
             print(f"添加Issue驱动开发字段时出错（可能已存在）: {e}")
         
+        # 创建项目进度跟踪表
+        await conn.execute("""
+            CREATE TABLE IF NOT EXISTS project_progress (
+                id SERIAL PRIMARY KEY,
+                project_id INTEGER REFERENCES projects(id),
+                date DATE NOT NULL,
+                has_commit BOOLEAN DEFAULT FALSE,
+                commit_count INTEGER DEFAULT 0,
+                lines_added INTEGER DEFAULT 0,
+                lines_deleted INTEGER DEFAULT 0,
+                files_changed INTEGER DEFAULT 0,
+                issues_created INTEGER DEFAULT 0,
+                issues_closed INTEGER DEFAULT 0,
+                issues_commented INTEGER DEFAULT 0,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                UNIQUE(project_id, date)
+            )
+        """)
+        
+        # 创建索引以提高查询性能
+        await conn.execute("""
+            CREATE INDEX IF NOT EXISTS idx_project_progress_project_date 
+            ON project_progress(project_id, date)
+        """)
+        
+        await conn.execute("""
+            CREATE INDEX IF NOT EXISTS idx_project_progress_date 
+            ON project_progress(date)
+        """)
+        
         await conn.commit()
 
 

@@ -188,4 +188,56 @@ class ProjectTestAnalysis(BaseModel):
 class TestAnalysisSummary(BaseModel):
     summary: dict
     framework_distribution: List[dict]
-    coverage_distribution: List[dict] 
+    coverage_distribution: List[dict]
+
+
+# 项目进度跟踪相关模型
+class ProjectProgressBase(BaseModel):
+    project_id: int
+    date: str  # YYYY-MM-DD 格式
+    has_commit: bool = False
+    commit_count: int = 0
+    lines_added: int = 0
+    lines_deleted: int = 0
+    files_changed: int = 0
+    issues_created: int = 0
+    issues_closed: int = 0
+    issues_commented: int = 0
+
+
+class ProjectProgressCreate(ProjectProgressBase):
+    pass
+
+
+class ProjectProgress(ProjectProgressBase):
+    id: int
+    created_at: datetime
+    updated_at: datetime
+    project_name: Optional[str] = None
+    github_url: Optional[str] = None
+    
+    class Config:
+        from_attributes = True
+
+
+class ProjectProgressSummary(BaseModel):
+    total_projects: int
+    tracking_start_date: str
+    tracking_end_date: str
+    total_days: int
+    projects_with_activity: int
+    total_commits: int
+    total_issues_created: int
+    total_issues_closed: int
+    daily_activity_summary: List[dict]
+    project_activity_ranking: List[dict]
+
+
+class CalendarData(BaseModel):
+    date: str
+    projects_with_commits: int
+    total_commits: int
+    total_lines_added: int
+    total_issues_created: int
+    total_issues_closed: int
+    project_details: List[dict] 
