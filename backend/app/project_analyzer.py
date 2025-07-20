@@ -69,6 +69,9 @@ class ProjectAnalyzer:
             # 分析Git工作流程
             workflow_info = await self.analyze_git_workflow(project_key, repo_path)
             
+            # 分析Issue驱动开发
+            issue_driven_info = await self.analyze_issue_driven_development(project_key, repo_path)
+            
             # 计算质量评分
             quality_score = self.calculate_quality_score(structure, git_info)
             
@@ -79,6 +82,7 @@ class ProjectAnalyzer:
                 'tech_stack': tech_stack,
                 'git_info': git_info,
                 'workflow_info': workflow_info,
+                'issue_driven_info': issue_driven_info,
                 'quality_score': quality_score,
                 'analysis_time': datetime.now().isoformat()
             }
@@ -235,6 +239,278 @@ class ProjectAnalyzer:
             'uses_main_branch_merges': False,
             'uses_rebase': False,
             'uses_pull_requests': False
+        }
+    
+    async def analyze_issue_driven_development(self, project_key: str, repo_path: Path) -> Dict:
+        """分析Issue驱动开发"""
+        try:
+            # 从项目路径提取owner/repo
+            parts = project_key.split('/')
+            if len(parts) >= 2:
+                owner = parts[0]
+                repo = parts[1]
+                github_url = f"https://github.com/{owner}/{repo}"
+                
+                # 分析Git提交
+                commit_stats = await self._analyze_commits_for_issues(repo_path)
+                
+                # 分析GitHub Issues
+                issue_stats = await self._analyze_github_issues(github_url)
+                
+                # 计算Issue驱动开发指标
+                metrics = self._calculate_issue_driven_metrics(commit_stats, issue_stats)
+                
+                # 计算评分和质量评级
+                score, quality = self._calculate_issue_driven_score(metrics)
+                
+                return {
+                    'total_issues': issue_stats['total_issues'],
+                    'commits_with_issue_refs': metrics['commits_with_issue_refs'],
+                    'commits_without_issue_refs': metrics['commits_without_issue_refs'],
+                    'issues_with_assignees': issue_stats['issues_with_assignees'],
+                    'issues_without_assignees': issue_stats['issues_without_assignees'],
+                    'closed_issues': issue_stats['closed_issues'],
+                    'open_issues': issue_stats['open_issues'],
+                    'commit_issue_ratio': metrics['commit_issue_ratio'],
+                    'issue_assignee_ratio': metrics['issue_assignee_ratio'],
+                    'issue_closure_ratio': metrics['issue_closure_ratio'],
+                    'uses_issue_driven_development': score >= 60,
+                    'issue_driven_score': score,
+                    'issue_workflow_quality': quality
+                }
+            else:
+                self.logger.warning(f"项目路径格式不正确: {project_key}")
+            
+        except Exception as e:
+            self.logger.error(f"分析Issue驱动开发失败 {project_key}: {e}")
+        
+        # 返回默认值
+        return {
+            'total_issues': 0,
+            'commits_with_issue_refs': 0,
+            'commits_without_issue_refs': 0,
+            'issues_with_assignees': 0,
+            'issues_without_assignees': 0,
+            'closed_issues': 0,
+            'open_issues': 0,
+            'commit_issue_ratio': 0.0,
+            'issue_assignee_ratio': 0.0,
+            'issue_closure_ratio': 0.0,
+            'uses_issue_driven_development': False,
+            'issue_driven_score': 0.0,
+            'issue_workflow_quality': '一般'
+        }
+    
+    async def _analyze_commits_for_issues(self, repo_path: Path) -> Dict:
+        """分析Git提交中的issue引用"""
+        try:
+            # 获取所有提交
+            result = await asyncio.create_subprocess_exec(
+                'git', 'log', '--pretty=format:%H|%an|%ad|%s', '--date=short',
+                cwd=repo_path,
+                stdout=asyncio.subprocess.PIPE,
+                stderr=asyncio.subprocess.PIPE
+            )
+            stdout, stderr = await result.communicate()
+            
+            if result.returncode != 0:
+                self.logger.warning(f"获取提交历史失败: {stderr.decode()}")
+                return self._get_default_commit_stats()
+            
+            commits = []
+            for line in stdout.decode().strip().split('\n'):
+                if line.strip():
+                    parts = line.split('|')
+                    if len(parts) >= 4:
+                        commits.append({
+                            'hash': parts[0],
+                            'author': parts[1],
+                            'date': parts[2],
+                            'message': parts[3]
+                        })
+            
+            # 分析提交信息中的issue引用
+            issue_patterns = [
+                r'#(\d+)',  # #123
+                r'issue\s*#(\d+)',  # issue #123
+                r'fixes?\s*#(\d+)',  # fixes #123
+                r'closes?\s*#(\d+)',  # closes #123
+                r'resolves?\s*#(\d+)',  # resolves #123
+                r'addresses?\s*#(\d+)',  # addresses #123
+                r'related\s+to\s*#(\d+)',  # related to #123
+                r'see\s*#(\d+)',  # see #123
+                r'(\d+)\s*$',  # 123 (行尾)
+            ]
+            
+            commits_with_issue_refs = 0
+            for commit in commits:
+                for pattern in issue_patterns:
+                    import re
+                    if re.search(pattern, commit['message'], re.IGNORECASE):
+                        commits_with_issue_refs += 1
+                        break
+            
+            return {
+                'total_commits': len(commits),
+                'commits_with_issue_refs': commits_with_issue_refs,
+                'commits_without_issue_refs': len(commits) - commits_with_issue_refs
+            }
+            
+        except Exception as e:
+            self.logger.error(f"分析提交失败: {e}")
+            return self._get_default_commit_stats()
+    
+    async def _analyze_github_issues(self, github_url: str) -> Dict:
+        """分析GitHub Issues"""
+        try:
+            # 从数据库获取issue数据
+            async with db.get_db() as conn:
+                async with conn.cursor() as cur:
+                    # 查找项目ID
+                    await cur.execute(
+                        "SELECT id FROM projects WHERE github_url = %s",
+                        (github_url,)
+                    )
+                    project_result = await cur.fetchone()
+                    
+                    if not project_result:
+                        self.logger.warning(f"项目不存在: {github_url}")
+                        return self._get_default_issue_stats()
+                    
+                    project_id = project_result['id']
+                    
+                    # 获取所有issues
+                    await cur.execute("""
+                        SELECT i.*, s.name as student_name, s.github_username
+                        FROM issues i
+                        LEFT JOIN students s ON i.student_id = s.id
+                        WHERE i.project_id = %s
+                        ORDER BY i.created_at DESC
+                    """, (project_id,))
+                    
+                    issues = await cur.fetchall()
+                    
+                    # 分析issue数据
+                    issues_with_assignees = 0
+                    issues_without_assignees = 0
+                    closed_issues = 0
+                    open_issues = 0
+                    
+                    for issue in issues:
+                        if issue['state'] == 'closed':
+                            closed_issues += 1
+                        else:
+                            open_issues += 1
+                        
+                        # 检查是否有assignee（通过学生关联）
+                        if issue['student_id']:
+                            issues_with_assignees += 1
+                        else:
+                            issues_without_assignees += 1
+                    
+                    return {
+                        'total_issues': len(issues),
+                        'issues_with_assignees': issues_with_assignees,
+                        'issues_without_assignees': issues_without_assignees,
+                        'closed_issues': closed_issues,
+                        'open_issues': open_issues
+                    }
+                    
+        except Exception as e:
+            self.logger.error(f"分析GitHub Issues失败: {e}")
+            return self._get_default_issue_stats()
+    
+    def _calculate_issue_driven_metrics(self, commit_stats: Dict, issue_stats: Dict) -> Dict:
+        """计算Issue驱动开发指标"""
+        total_commits = commit_stats['total_commits']
+        total_issues = issue_stats['total_issues']
+        commits_with_issue_refs = commit_stats['commits_with_issue_refs']
+        issues_with_assignees = issue_stats['issues_with_assignees']
+        closed_issues = issue_stats['closed_issues']
+        
+        # 计算比例
+        commit_issue_ratio = (commits_with_issue_refs / total_commits * 100) if total_commits > 0 else 0
+        issue_assignee_ratio = (issues_with_assignees / total_issues * 100) if total_issues > 0 else 0
+        issue_closure_ratio = (closed_issues / total_issues * 100) if total_issues > 0 else 0
+        
+        return {
+            'commits_with_issue_refs': commits_with_issue_refs,
+            'commits_without_issue_refs': total_commits - commits_with_issue_refs,
+            'commit_issue_ratio': commit_issue_ratio,
+            'issue_assignee_ratio': issue_assignee_ratio,
+            'issue_closure_ratio': issue_closure_ratio
+        }
+    
+    def _calculate_issue_driven_score(self, metrics: Dict) -> tuple:
+        """计算Issue驱动开发评分"""
+        score = 0.0
+        
+        # 提交-Issue关联度 (40分)
+        commit_issue_ratio = metrics['commit_issue_ratio']
+        if commit_issue_ratio >= 80:
+            score += 40
+        elif commit_issue_ratio >= 60:
+            score += 30
+        elif commit_issue_ratio >= 40:
+            score += 20
+        elif commit_issue_ratio >= 20:
+            score += 10
+        
+        # Issue有assignee的比例 (30分)
+        issue_assignee_ratio = metrics['issue_assignee_ratio']
+        if issue_assignee_ratio >= 80:
+            score += 30
+        elif issue_assignee_ratio >= 60:
+            score += 25
+        elif issue_assignee_ratio >= 40:
+            score += 20
+        elif issue_assignee_ratio >= 20:
+            score += 15
+        
+        # Issue关闭比例 (20分)
+        issue_closure_ratio = metrics['issue_closure_ratio']
+        if issue_closure_ratio >= 80:
+            score += 20
+        elif issue_closure_ratio >= 60:
+            score += 15
+        elif issue_closure_ratio >= 40:
+            score += 10
+        elif issue_closure_ratio >= 20:
+            score += 5
+        
+        # Issue数量 (10分)
+        score += 10
+        
+        # 确定质量评级
+        if score >= 80:
+            quality = "优秀"
+        elif score >= 60:
+            quality = "良好"
+        elif score >= 40:
+            quality = "一般"
+        elif score >= 20:
+            quality = "较差"
+        else:
+            quality = "很差"
+        
+        return score, quality
+    
+    def _get_default_commit_stats(self) -> Dict:
+        """获取默认提交统计"""
+        return {
+            'total_commits': 0,
+            'commits_with_issue_refs': 0,
+            'commits_without_issue_refs': 0
+        }
+    
+    def _get_default_issue_stats(self) -> Dict:
+        """获取默认Issue统计"""
+        return {
+            'total_issues': 0,
+            'issues_with_assignees': 0,
+            'issues_without_assignees': 0,
+            'closed_issues': 0,
+            'open_issues': 0
         }
     
     async def get_git_info(self, repo_path: Path) -> Dict:

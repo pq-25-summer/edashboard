@@ -128,6 +128,20 @@ class ProjectStatusBase(BaseModel):
     uses_main_branch_merges: bool = False
     uses_rebase: bool = False
     uses_pull_requests: bool = False
+    # Issue驱动开发相关字段
+    total_issues: int = 0
+    commits_with_issue_refs: int = 0
+    commits_without_issue_refs: int = 0
+    issues_with_assignees: int = 0
+    issues_without_assignees: int = 0
+    closed_issues: int = 0
+    open_issues: int = 0
+    commit_issue_ratio: float = 0.0
+    issue_assignee_ratio: float = 0.0
+    issue_closure_ratio: float = 0.0
+    uses_issue_driven_development: bool = False
+    issue_driven_score: float = 0.0
+    issue_workflow_quality: str = "一般"
 
 
 class ProjectStatusCreate(ProjectStatusBase):

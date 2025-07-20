@@ -122,6 +122,20 @@ async def init_db():
                 uses_main_branch_merges BOOLEAN DEFAULT FALSE,
                 uses_rebase BOOLEAN DEFAULT FALSE,
                 uses_pull_requests BOOLEAN DEFAULT FALSE,
+                -- Issue驱动开发相关字段
+                total_issues INTEGER DEFAULT 0,
+                commits_with_issue_refs INTEGER DEFAULT 0,
+                commits_without_issue_refs INTEGER DEFAULT 0,
+                issues_with_assignees INTEGER DEFAULT 0,
+                issues_without_assignees INTEGER DEFAULT 0,
+                closed_issues INTEGER DEFAULT 0,
+                open_issues INTEGER DEFAULT 0,
+                commit_issue_ratio DECIMAL(5,2) DEFAULT 0.0,
+                issue_assignee_ratio DECIMAL(5,2) DEFAULT 0.0,
+                issue_closure_ratio DECIMAL(5,2) DEFAULT 0.0,
+                uses_issue_driven_development BOOLEAN DEFAULT FALSE,
+                issue_driven_score DECIMAL(5,2) DEFAULT 0.0,
+                issue_workflow_quality VARCHAR(20) DEFAULT '一般',
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
@@ -175,6 +189,63 @@ async def init_db():
             """)
         except Exception as e:
             print(f"添加Git工作流程字段时出错（可能已存在）: {e}")
+        
+        # 添加Issue驱动开发字段（如果不存在）
+        try:
+            await conn.execute("""
+                ALTER TABLE project_statuses 
+                ADD COLUMN IF NOT EXISTS total_issues INTEGER DEFAULT 0
+            """)
+            await conn.execute("""
+                ALTER TABLE project_statuses 
+                ADD COLUMN IF NOT EXISTS commits_with_issue_refs INTEGER DEFAULT 0
+            """)
+            await conn.execute("""
+                ALTER TABLE project_statuses 
+                ADD COLUMN IF NOT EXISTS commits_without_issue_refs INTEGER DEFAULT 0
+            """)
+            await conn.execute("""
+                ALTER TABLE project_statuses 
+                ADD COLUMN IF NOT EXISTS issues_with_assignees INTEGER DEFAULT 0
+            """)
+            await conn.execute("""
+                ALTER TABLE project_statuses 
+                ADD COLUMN IF NOT EXISTS issues_without_assignees INTEGER DEFAULT 0
+            """)
+            await conn.execute("""
+                ALTER TABLE project_statuses 
+                ADD COLUMN IF NOT EXISTS closed_issues INTEGER DEFAULT 0
+            """)
+            await conn.execute("""
+                ALTER TABLE project_statuses 
+                ADD COLUMN IF NOT EXISTS open_issues INTEGER DEFAULT 0
+            """)
+            await conn.execute("""
+                ALTER TABLE project_statuses 
+                ADD COLUMN IF NOT EXISTS commit_issue_ratio DECIMAL(5,2) DEFAULT 0.0
+            """)
+            await conn.execute("""
+                ALTER TABLE project_statuses 
+                ADD COLUMN IF NOT EXISTS issue_assignee_ratio DECIMAL(5,2) DEFAULT 0.0
+            """)
+            await conn.execute("""
+                ALTER TABLE project_statuses 
+                ADD COLUMN IF NOT EXISTS issue_closure_ratio DECIMAL(5,2) DEFAULT 0.0
+            """)
+            await conn.execute("""
+                ALTER TABLE project_statuses 
+                ADD COLUMN IF NOT EXISTS uses_issue_driven_development BOOLEAN DEFAULT FALSE
+            """)
+            await conn.execute("""
+                ALTER TABLE project_statuses 
+                ADD COLUMN IF NOT EXISTS issue_driven_score DECIMAL(5,2) DEFAULT 0.0
+            """)
+            await conn.execute("""
+                ALTER TABLE project_statuses 
+                ADD COLUMN IF NOT EXISTS issue_workflow_quality VARCHAR(20) DEFAULT '一般'
+            """)
+        except Exception as e:
+            print(f"添加Issue驱动开发字段时出错（可能已存在）: {e}")
         
         await conn.commit()
 

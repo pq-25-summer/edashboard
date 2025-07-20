@@ -147,6 +147,67 @@ async def run_tech_stack():
         return False
 
 
+async def run_issue_driven_analysis():
+    """执行Issue驱动开发分析"""
+    logger = setup_logging()
+    
+    print("🔍 执行Issue驱动开发分析...")
+    logger.info("开始执行Issue驱动开发分析")
+    
+    try:
+        # 运行Issue驱动开发分析脚本
+        import subprocess
+        result = subprocess.run([
+            sys.executable, 'scripts/analyze_issue_driven_development.py',
+            '--repos-path', '/Users/mars/jobs/pq/repos'
+        ], capture_output=True, text=True)
+        
+        if result.returncode == 0:
+            logger.info("Issue驱动开发分析完成")
+            print("✅ Issue驱动开发分析完成")
+            print(result.stdout)
+            return True
+        else:
+            logger.error(f"Issue驱动开发分析失败: {result.stderr}")
+            print(f"❌ Issue驱动开发分析失败: {result.stderr}")
+            return False
+        
+    except Exception as e:
+        logger.error(f"Issue驱动开发分析失败: {e}")
+        print(f"❌ Issue驱动开发分析失败: {e}")
+        return False
+
+
+async def run_issue_driven_sync():
+    """同步Issue驱动开发数据"""
+    logger = setup_logging()
+    
+    print("🔄 同步Issue驱动开发数据...")
+    logger.info("开始同步Issue驱动开发数据")
+    
+    try:
+        # 运行Issue驱动开发数据同步脚本
+        import subprocess
+        result = subprocess.run([
+            sys.executable, 'scripts/sync_issue_driven_data.py'
+        ], capture_output=True, text=True)
+        
+        if result.returncode == 0:
+            logger.info("Issue驱动开发数据同步完成")
+            print("✅ Issue驱动开发数据同步完成")
+            print(result.stdout)
+            return True
+        else:
+            logger.error(f"Issue驱动开发数据同步失败: {result.stderr}")
+            print(f"❌ Issue驱动开发数据同步失败: {result.stderr}")
+            return False
+        
+    except Exception as e:
+        logger.error(f"Issue驱动开发数据同步失败: {e}")
+        print(f"❌ Issue驱动开发数据同步失败: {e}")
+        return False
+
+
 async def show_status():
     """显示系统状态"""
     logger = setup_logging()
@@ -180,6 +241,16 @@ async def show_status():
                 await cur.execute("SELECT COUNT(*) FROM project_statuses")
                 status_count = (await cur.fetchone())["count"]
                 
+                # Issue驱动开发统计
+                await cur.execute("""
+                    SELECT 
+                        COUNT(CASE WHEN uses_issue_driven_development THEN 1 END) as projects_with_issue_driven,
+                        AVG(issue_driven_score) as avg_issue_driven_score,
+                        AVG(commit_issue_ratio) as avg_commit_issue_ratio
+                    FROM project_statuses
+                """)
+                issue_driven_stats = await cur.fetchone()
+                
                 # 最近更新时间
                 await cur.execute("SELECT MAX(updated_at) FROM project_statuses")
                 last_update_result = await cur.fetchone()
@@ -191,6 +262,11 @@ async def show_status():
         print(f"   - 提交数量: {commit_count}")
         print(f"   - Issue数量: {issue_count}")
         print(f"   - 项目状态记录: {status_count}")
+        
+        print(f"📋 Issue驱动开发:")
+        print(f"   - 使用Issue驱动开发: {issue_driven_stats['projects_with_issue_driven']} ({issue_driven_stats['projects_with_issue_driven']/project_count*100:.1f}%)")
+        print(f"   - 平均评分: {issue_driven_stats['avg_issue_driven_score']:.1f}/100")
+        print(f"   - 平均提交-Issue关联率: {issue_driven_stats['avg_commit_issue_ratio']:.1f}%")
         
         if last_update:
             print(f"   - 最后更新时间: {last_update}")
@@ -212,17 +288,19 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 示例用法:
-  python cli.py sync        # 执行完整数据同步
-  python cli.py analyze     # 仅执行项目分析
-  python cli.py git-sync    # 同步Git仓库
-  python cli.py tech-stack  # 保存技术栈数据
-  python cli.py status      # 查看系统状态
+  python cli.py sync                    # 执行完整数据同步
+  python cli.py analyze                 # 仅执行项目分析
+  python cli.py git-sync                # 同步Git仓库
+  python cli.py tech-stack              # 保存技术栈数据
+  python cli.py status                  # 查看系统状态
+  python cli.py issue-driven-analysis   # 执行Issue驱动开发分析
+  python cli.py issue-driven-sync       # 同步Issue驱动开发数据
         """
     )
     
     parser.add_argument(
         'command',
-        choices=['sync', 'analyze', 'git-sync', 'tech-stack', 'status'],
+        choices=['sync', 'analyze', 'git-sync', 'tech-stack', 'status', 'issue-driven-analysis', 'issue-driven-sync'],
         help='要执行的命令'
     )
     
@@ -253,6 +331,10 @@ def main():
         success = asyncio.run(run_tech_stack())
     elif args.command == 'status':
         success = asyncio.run(show_status())
+    elif args.command == 'issue-driven-analysis':
+        success = asyncio.run(run_issue_driven_analysis())
+    elif args.command == 'issue-driven-sync':
+        success = asyncio.run(run_issue_driven_sync())
     else:
         print(f"❌ 未知命令: {args.command}")
         return 1

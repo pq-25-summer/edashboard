@@ -1,0 +1,686 @@
+[
+  {
+    "project_name": "AI-quiz",
+    "github_url": "https://github.com/teamHard-three/AI-quiz",
+    "total_commits": 87,
+    "total_issues": 9,
+    "total_pull_requests": 0,
+    "commits_with_issue_refs": 25,
+    "commits_without_issue_refs": 62,
+    "issues_with_assignees": 9,
+    "issues_without_assignees": 0,
+    "closed_issues": 0,
+    "open_issues": 9,
+    "commit_issue_ratio": 28.735632183908045,
+    "issue_assignee_ratio": 100.0,
+    "issue_closure_ratio": 0.0,
+    "uses_issue_driven_development": false,
+    "issue_driven_score": 50.0,
+    "workflow_quality": "一般",
+    "commit_issue_patterns": [
+      "使用issue引用格式",
+      "提交信息包含issue编号"
+    ],
+    "issue_creation_patterns": [
+      "有issue跟踪"
+    ],
+    "assignee_patterns": [
+      "issue有负责人"
+    ],
+    "analyzed_at": "2025-07-20T21:15:33.414364"
+  },
+  {
+    "project_name": "ConnectWork",
+    "github_url": "https://github.com/TeamSummerInternship25/ConnectWork",
+    "total_commits": 1,
+    "total_issues": 9,
+    "total_pull_requests": 0,
+    "commits_with_issue_refs": 0,
+    "commits_without_issue_refs": 1,
+    "issues_with_assignees": 9,
+    "issues_without_assignees": 0,
+    "closed_issues": 0,
+    "open_issues": 9,
+    "commit_issue_ratio": 0.0,
+    "issue_assignee_ratio": 100.0,
+    "issue_closure_ratio": 0.0,
+    "uses_issue_driven_development": false,
+    "issue_driven_score": 40.0,
+    "workflow_quality": "一般",
+    "commit_issue_patterns": [],
+    "issue_creation_patterns": [
+      "有issue跟踪"
+    ],
+    "assignee_patterns": [
+      "issue有负责人"
+    ],
+    "analyzed_at": "2025-07-20T21:15:33.434369"
+  },
+  {
+    "project_name": "MSN-Homework",
+    "github_url": "https://github.com/MSN-team/MSN-Homework",
+    "total_commits": 27,
+    "total_issues": 12,
+    "total_pull_requests": 0,
+    "commits_with_issue_refs": 1,
+    "commits_without_issue_refs": 26,
+    "issues_with_assignees": 12,
+    "issues_without_assignees": 0,
+    "closed_issues": 0,
+    "open_issues": 12,
+    "commit_issue_ratio": 3.7037037037037033,
+    "issue_assignee_ratio": 100.0,
+    "issue_closure_ratio": 0.0,
+    "uses_issue_driven_development": false,
+    "issue_driven_score": 40.0,
+    "workflow_quality": "一般",
+    "commit_issue_patterns": [
+      "使用issue引用格式",
+      "提交信息包含issue编号"
+    ],
+    "issue_creation_patterns": [
+      "有issue跟踪"
+    ],
+    "assignee_patterns": [
+      "issue有负责人"
+    ],
+    "analyzed_at": "2025-07-20T21:15:33.459320"
+  },
+  {
+    "project_name": "PQ-Project",
+    "github_url": "https://github.com/TeamCvOriented/PQ-Project",
+    "total_commits": 25,
+    "total_issues": 12,
+    "total_pull_requests": 0,
+    "commits_with_issue_refs": 11,
+    "commits_without_issue_refs": 14,
+    "issues_with_assignees": 12,
+    "issues_without_assignees": 0,
+    "closed_issues": 0,
+    "open_issues": 12,
+    "commit_issue_ratio": 44.0,
+    "issue_assignee_ratio": 100.0,
+    "issue_closure_ratio": 0.0,
+    "uses_issue_driven_development": true,
+    "issue_driven_score": 60.0,
+    "workflow_quality": "良好",
+    "commit_issue_patterns": [
+      "使用issue引用格式",
+      "提交信息包含issue编号"
+    ],
+    "issue_creation_patterns": [
+      "有issue跟踪"
+    ],
+    "assignee_patterns": [
+      "issue有负责人"
+    ],
+    "analyzed_at": "2025-07-20T21:15:33.481784"
+  },
+  {
+    "project_name": "PQ-project",
+    "github_url": "https://github.com/DanielW1234/PQ-project",
+    "total_commits": 118,
+    "total_issues": 5,
+    "total_pull_requests": 0,
+    "commits_with_issue_refs": 22,
+    "commits_without_issue_refs": 96,
+    "issues_with_assignees": 5,
+    "issues_without_assignees": 0,
+    "closed_issues": 0,
+    "open_issues": 5,
+    "commit_issue_ratio": 18.64406779661017,
+    "issue_assignee_ratio": 100.0,
+    "issue_closure_ratio": 0.0,
+    "uses_issue_driven_development": false,
+    "issue_driven_score": 40.0,
+    "workflow_quality": "一般",
+    "commit_issue_patterns": [
+      "使用issue引用格式",
+      "提交信息包含issue编号"
+    ],
+    "issue_creation_patterns": [
+      "有issue跟踪"
+    ],
+    "assignee_patterns": [
+      "issue有负责人"
+    ],
+    "analyzed_at": "2025-07-20T21:15:33.505354"
+  },
+  {
+    "project_name": "PQ_LTeamProject",
+    "github_url": "https://github.com/L-team-ai/PQ_LTeamProject",
+    "total_commits": 62,
+    "total_issues": 10,
+    "total_pull_requests": 0,
+    "commits_with_issue_refs": 10,
+    "commits_without_issue_refs": 52,
+    "issues_with_assignees": 10,
+    "issues_without_assignees": 0,
+    "closed_issues": 0,
+    "open_issues": 10,
+    "commit_issue_ratio": 16.129032258064516,
+    "issue_assignee_ratio": 100.0,
+    "issue_closure_ratio": 0.0,
+    "uses_issue_driven_development": false,
+    "issue_driven_score": 40.0,
+    "workflow_quality": "一般",
+    "commit_issue_patterns": [
+      "使用issue引用格式",
+      "提交信息包含issue编号"
+    ],
+    "issue_creation_patterns": [
+      "有issue跟踪"
+    ],
+    "assignee_patterns": [
+      "issue有负责人"
+    ],
+    "analyzed_at": "2025-07-20T21:15:33.526804"
+  },
+  {
+    "project_name": "PQ_repo",
+    "github_url": "https://github.com/HaavkTeam/PQ_repo",
+    "total_commits": 36,
+    "total_issues": 8,
+    "total_pull_requests": 0,
+    "commits_with_issue_refs": 16,
+    "commits_without_issue_refs": 20,
+    "issues_with_assignees": 8,
+    "issues_without_assignees": 0,
+    "closed_issues": 0,
+    "open_issues": 8,
+    "commit_issue_ratio": 44.44444444444444,
+    "issue_assignee_ratio": 100.0,
+    "issue_closure_ratio": 0.0,
+    "uses_issue_driven_development": true,
+    "issue_driven_score": 60.0,
+    "workflow_quality": "良好",
+    "commit_issue_patterns": [
+      "使用issue引用格式",
+      "提交信息包含issue编号"
+    ],
+    "issue_creation_patterns": [
+      "有issue跟踪"
+    ],
+    "assignee_patterns": [
+      "issue有负责人"
+    ],
+    "analyzed_at": "2025-07-20T21:15:33.546717"
+  },
+  {
+    "project_name": "PopQuiz",
+    "github_url": "https://github.com/WolfWolfTeam/PopQuiz",
+    "total_commits": 22,
+    "total_issues": 10,
+    "total_pull_requests": 0,
+    "commits_with_issue_refs": 3,
+    "commits_without_issue_refs": 19,
+    "issues_with_assignees": 10,
+    "issues_without_assignees": 0,
+    "closed_issues": 0,
+    "open_issues": 10,
+    "commit_issue_ratio": 13.636363636363635,
+    "issue_assignee_ratio": 100.0,
+    "issue_closure_ratio": 0.0,
+    "uses_issue_driven_development": false,
+    "issue_driven_score": 40.0,
+    "workflow_quality": "一般",
+    "commit_issue_patterns": [
+      "使用issue引用格式",
+      "提交信息包含issue编号"
+    ],
+    "issue_creation_patterns": [
+      "有issue跟踪"
+    ],
+    "assignee_patterns": [
+      "issue有负责人"
+    ],
+    "analyzed_at": "2025-07-20T21:15:33.569204"
+  },
+  {
+    "project_name": "RainbowTeam",
+    "github_url": "https://github.com/RainbowTeam706/RainbowTeam",
+    "total_commits": 77,
+    "total_issues": 9,
+    "total_pull_requests": 0,
+    "commits_with_issue_refs": 16,
+    "commits_without_issue_refs": 61,
+    "issues_with_assignees": 9,
+    "issues_without_assignees": 0,
+    "closed_issues": 0,
+    "open_issues": 9,
+    "commit_issue_ratio": 20.77922077922078,
+    "issue_assignee_ratio": 100.0,
+    "issue_closure_ratio": 0.0,
+    "uses_issue_driven_development": false,
+    "issue_driven_score": 50.0,
+    "workflow_quality": "一般",
+    "commit_issue_patterns": [
+      "使用issue引用格式",
+      "提交信息包含issue编号"
+    ],
+    "issue_creation_patterns": [
+      "有issue跟踪"
+    ],
+    "assignee_patterns": [
+      "issue有负责人"
+    ],
+    "analyzed_at": "2025-07-20T21:15:33.592592"
+  },
+  {
+    "project_name": "ai-question",
+    "github_url": "https://github.com/team-1-0-5/ai-question",
+    "total_commits": 60,
+    "total_issues": 3,
+    "total_pull_requests": 0,
+    "commits_with_issue_refs": 19,
+    "commits_without_issue_refs": 41,
+    "issues_with_assignees": 3,
+    "issues_without_assignees": 0,
+    "closed_issues": 0,
+    "open_issues": 3,
+    "commit_issue_ratio": 31.666666666666664,
+    "issue_assignee_ratio": 100.0,
+    "issue_closure_ratio": 0.0,
+    "uses_issue_driven_development": false,
+    "issue_driven_score": 50.0,
+    "workflow_quality": "一般",
+    "commit_issue_patterns": [
+      "使用issue引用格式",
+      "提交信息包含issue编号"
+    ],
+    "issue_creation_patterns": [
+      "有issue跟踪"
+    ],
+    "assignee_patterns": [
+      "issue有负责人"
+    ],
+    "analyzed_at": "2025-07-20T21:15:33.611778"
+  },
+  {
+    "project_name": "demo-proj1",
+    "github_url": "https://github.com/internship-team1/demo-proj1",
+    "total_commits": 45,
+    "total_issues": 5,
+    "total_pull_requests": 0,
+    "commits_with_issue_refs": 1,
+    "commits_without_issue_refs": 44,
+    "issues_with_assignees": 5,
+    "issues_without_assignees": 0,
+    "closed_issues": 0,
+    "open_issues": 5,
+    "commit_issue_ratio": 2.2222222222222223,
+    "issue_assignee_ratio": 100.0,
+    "issue_closure_ratio": 0.0,
+    "uses_issue_driven_development": false,
+    "issue_driven_score": 40.0,
+    "workflow_quality": "一般",
+    "commit_issue_patterns": [
+      "使用issue引用格式",
+      "提交信息包含issue编号"
+    ],
+    "issue_creation_patterns": [
+      "有issue跟踪"
+    ],
+    "assignee_patterns": [
+      "issue有负责人"
+    ],
+    "analyzed_at": "2025-07-20T21:15:33.631521"
+  },
+  {
+    "project_name": "internship203",
+    "github_url": "https://github.com/gogogo203/internship203",
+    "total_commits": 13,
+    "total_issues": 8,
+    "total_pull_requests": 0,
+    "commits_with_issue_refs": 2,
+    "commits_without_issue_refs": 11,
+    "issues_with_assignees": 8,
+    "issues_without_assignees": 0,
+    "closed_issues": 0,
+    "open_issues": 8,
+    "commit_issue_ratio": 15.384615384615385,
+    "issue_assignee_ratio": 100.0,
+    "issue_closure_ratio": 0.0,
+    "uses_issue_driven_development": false,
+    "issue_driven_score": 40.0,
+    "workflow_quality": "一般",
+    "commit_issue_patterns": [
+      "使用issue引用格式",
+      "提交信息包含issue编号"
+    ],
+    "issue_creation_patterns": [
+      "有issue跟踪"
+    ],
+    "assignee_patterns": [
+      "issue有负责人"
+    ],
+    "analyzed_at": "2025-07-20T21:15:33.650573"
+  },
+  {
+    "project_name": "kbdui-work",
+    "github_url": "https://github.com/kbdui-team/kbdui-work",
+    "total_commits": 42,
+    "total_issues": 13,
+    "total_pull_requests": 0,
+    "commits_with_issue_refs": 6,
+    "commits_without_issue_refs": 36,
+    "issues_with_assignees": 13,
+    "issues_without_assignees": 0,
+    "closed_issues": 0,
+    "open_issues": 13,
+    "commit_issue_ratio": 14.285714285714285,
+    "issue_assignee_ratio": 100.0,
+    "issue_closure_ratio": 0.0,
+    "uses_issue_driven_development": false,
+    "issue_driven_score": 40.0,
+    "workflow_quality": "一般",
+    "commit_issue_patterns": [
+      "使用issue引用格式",
+      "提交信息包含issue编号"
+    ],
+    "issue_creation_patterns": [
+      "有issue跟踪"
+    ],
+    "assignee_patterns": [
+      "issue有负责人"
+    ],
+    "analyzed_at": "2025-07-20T21:15:33.669891"
+  },
+  {
+    "project_name": "llj-public",
+    "github_url": "https://github.com/ldg-aqing/llj-public",
+    "total_commits": 74,
+    "total_issues": 2,
+    "total_pull_requests": 0,
+    "commits_with_issue_refs": 20,
+    "commits_without_issue_refs": 54,
+    "issues_with_assignees": 2,
+    "issues_without_assignees": 0,
+    "closed_issues": 0,
+    "open_issues": 2,
+    "commit_issue_ratio": 27.027027027027028,
+    "issue_assignee_ratio": 100.0,
+    "issue_closure_ratio": 0.0,
+    "uses_issue_driven_development": false,
+    "issue_driven_score": 50.0,
+    "workflow_quality": "一般",
+    "commit_issue_patterns": [
+      "使用issue引用格式",
+      "提交信息包含issue编号"
+    ],
+    "issue_creation_patterns": [
+      "有issue跟踪"
+    ],
+    "assignee_patterns": [
+      "issue有负责人"
+    ],
+    "analyzed_at": "2025-07-20T21:15:33.690799"
+  },
+  {
+    "project_name": "popquiz-project",
+    "github_url": "https://github.com/kevinzhangzj710/popquiz-project",
+    "total_commits": 33,
+    "total_issues": 11,
+    "total_pull_requests": 0,
+    "commits_with_issue_refs": 1,
+    "commits_without_issue_refs": 32,
+    "issues_with_assignees": 11,
+    "issues_without_assignees": 0,
+    "closed_issues": 0,
+    "open_issues": 11,
+    "commit_issue_ratio": 3.0303030303030303,
+    "issue_assignee_ratio": 100.0,
+    "issue_closure_ratio": 0.0,
+    "uses_issue_driven_development": false,
+    "issue_driven_score": 40.0,
+    "workflow_quality": "一般",
+    "commit_issue_patterns": [
+      "使用issue引用格式",
+      "提交信息包含issue编号"
+    ],
+    "issue_creation_patterns": [
+      "有issue跟踪"
+    ],
+    "assignee_patterns": [
+      "issue有负责人"
+    ],
+    "analyzed_at": "2025-07-20T21:15:33.710510"
+  },
+  {
+    "project_name": "project",
+    "github_url": "https://github.com/AAA-sw-team/project",
+    "total_commits": 72,
+    "total_issues": 6,
+    "total_pull_requests": 0,
+    "commits_with_issue_refs": 23,
+    "commits_without_issue_refs": 49,
+    "issues_with_assignees": 6,
+    "issues_without_assignees": 0,
+    "closed_issues": 0,
+    "open_issues": 6,
+    "commit_issue_ratio": 31.944444444444443,
+    "issue_assignee_ratio": 100.0,
+    "issue_closure_ratio": 0.0,
+    "uses_issue_driven_development": false,
+    "issue_driven_score": 50.0,
+    "workflow_quality": "一般",
+    "commit_issue_patterns": [
+      "使用issue引用格式",
+      "提交信息包含issue编号"
+    ],
+    "issue_creation_patterns": [
+      "有issue跟踪"
+    ],
+    "assignee_patterns": [
+      "issue有负责人"
+    ],
+    "analyzed_at": "2025-07-20T21:15:33.739189"
+  },
+  {
+    "project_name": "project_1",
+    "github_url": "https://github.com/teamwork10684/project_1",
+    "total_commits": 133,
+    "total_issues": 3,
+    "total_pull_requests": 0,
+    "commits_with_issue_refs": 23,
+    "commits_without_issue_refs": 110,
+    "issues_with_assignees": 3,
+    "issues_without_assignees": 0,
+    "closed_issues": 0,
+    "open_issues": 3,
+    "commit_issue_ratio": 17.293233082706767,
+    "issue_assignee_ratio": 100.0,
+    "issue_closure_ratio": 0.0,
+    "uses_issue_driven_development": false,
+    "issue_driven_score": 40.0,
+    "workflow_quality": "一般",
+    "commit_issue_patterns": [
+      "使用issue引用格式",
+      "提交信息包含issue编号"
+    ],
+    "issue_creation_patterns": [
+      "有issue跟踪"
+    ],
+    "assignee_patterns": [
+      "issue有负责人"
+    ],
+    "analyzed_at": "2025-07-20T21:15:33.759926"
+  },
+  {
+    "project_name": "quizgen",
+    "github_url": "https://github.com/GeminiProjects/quizgen",
+    "total_commits": 75,
+    "total_issues": 8,
+    "total_pull_requests": 0,
+    "commits_with_issue_refs": 3,
+    "commits_without_issue_refs": 72,
+    "issues_with_assignees": 8,
+    "issues_without_assignees": 0,
+    "closed_issues": 0,
+    "open_issues": 8,
+    "commit_issue_ratio": 4.0,
+    "issue_assignee_ratio": 100.0,
+    "issue_closure_ratio": 0.0,
+    "uses_issue_driven_development": false,
+    "issue_driven_score": 40.0,
+    "workflow_quality": "一般",
+    "commit_issue_patterns": [
+      "使用issue引用格式",
+      "提交信息包含issue编号"
+    ],
+    "issue_creation_patterns": [
+      "有issue跟踪"
+    ],
+    "assignee_patterns": [
+      "issue有负责人"
+    ],
+    "analyzed_at": "2025-07-20T21:15:33.779274"
+  },
+  {
+    "project_name": "qwer111",
+    "github_url": "https://github.com/leyin777/qwer111",
+    "total_commits": 52,
+    "total_issues": 9,
+    "total_pull_requests": 0,
+    "commits_with_issue_refs": 5,
+    "commits_without_issue_refs": 47,
+    "issues_with_assignees": 9,
+    "issues_without_assignees": 0,
+    "closed_issues": 0,
+    "open_issues": 9,
+    "commit_issue_ratio": 9.615384615384617,
+    "issue_assignee_ratio": 100.0,
+    "issue_closure_ratio": 0.0,
+    "uses_issue_driven_development": false,
+    "issue_driven_score": 40.0,
+    "workflow_quality": "一般",
+    "commit_issue_patterns": [
+      "使用issue引用格式",
+      "提交信息包含issue编号"
+    ],
+    "issue_creation_patterns": [
+      "有issue跟踪"
+    ],
+    "assignee_patterns": [
+      "issue有负责人"
+    ],
+    "analyzed_at": "2025-07-20T21:15:33.800031"
+  },
+  {
+    "project_name": "summer-project",
+    "github_url": "https://github.com/a-normal-team/summer-project",
+    "total_commits": 7,
+    "total_issues": 3,
+    "total_pull_requests": 0,
+    "commits_with_issue_refs": 0,
+    "commits_without_issue_refs": 7,
+    "issues_with_assignees": 3,
+    "issues_without_assignees": 0,
+    "closed_issues": 0,
+    "open_issues": 3,
+    "commit_issue_ratio": 0.0,
+    "issue_assignee_ratio": 100.0,
+    "issue_closure_ratio": 0.0,
+    "uses_issue_driven_development": false,
+    "issue_driven_score": 40.0,
+    "workflow_quality": "一般",
+    "commit_issue_patterns": [],
+    "issue_creation_patterns": [
+      "有issue跟踪"
+    ],
+    "assignee_patterns": [
+      "issue有负责人"
+    ],
+    "analyzed_at": "2025-07-20T21:15:33.819016"
+  },
+  {
+    "project_name": "sw-project-PQ",
+    "github_url": "https://github.com/sw-team-cosmogenesis/sw-project-PQ",
+    "total_commits": 21,
+    "total_issues": 10,
+    "total_pull_requests": 0,
+    "commits_with_issue_refs": 7,
+    "commits_without_issue_refs": 14,
+    "issues_with_assignees": 10,
+    "issues_without_assignees": 0,
+    "closed_issues": 0,
+    "open_issues": 10,
+    "commit_issue_ratio": 33.33333333333333,
+    "issue_assignee_ratio": 100.0,
+    "issue_closure_ratio": 0.0,
+    "uses_issue_driven_development": false,
+    "issue_driven_score": 50.0,
+    "workflow_quality": "一般",
+    "commit_issue_patterns": [
+      "使用issue引用格式",
+      "提交信息包含issue编号"
+    ],
+    "issue_creation_patterns": [
+      "有issue跟踪"
+    ],
+    "assignee_patterns": [
+      "issue有负责人"
+    ],
+    "analyzed_at": "2025-07-20T21:15:33.840463"
+  },
+  {
+    "project_name": "sw-project-demo",
+    "github_url": "https://github.com/team-WWH/sw-project-demo",
+    "total_commits": 50,
+    "total_issues": 6,
+    "total_pull_requests": 0,
+    "commits_with_issue_refs": 27,
+    "commits_without_issue_refs": 23,
+    "issues_with_assignees": 6,
+    "issues_without_assignees": 0,
+    "closed_issues": 0,
+    "open_issues": 6,
+    "commit_issue_ratio": 54.0,
+    "issue_assignee_ratio": 100.0,
+    "issue_closure_ratio": 0.0,
+    "uses_issue_driven_development": true,
+    "issue_driven_score": 60.0,
+    "workflow_quality": "良好",
+    "commit_issue_patterns": [
+      "使用issue引用格式",
+      "提交信息包含issue编号"
+    ],
+    "issue_creation_patterns": [
+      "有issue跟踪"
+    ],
+    "assignee_patterns": [
+      "issue有负责人"
+    ],
+    "analyzed_at": "2025-07-20T21:15:33.859863"
+  },
+  {
+    "project_name": "sw-project-demo",
+    "github_url": "https://github.com/SE-C2-X/sw-project-demo",
+    "total_commits": 4,
+    "total_issues": 8,
+    "total_pull_requests": 0,
+    "commits_with_issue_refs": 2,
+    "commits_without_issue_refs": 2,
+    "issues_with_assignees": 8,
+    "issues_without_assignees": 0,
+    "closed_issues": 0,
+    "open_issues": 8,
+    "commit_issue_ratio": 50.0,
+    "issue_assignee_ratio": 100.0,
+    "issue_closure_ratio": 0.0,
+    "uses_issue_driven_development": true,
+    "issue_driven_score": 60.0,
+    "workflow_quality": "良好",
+    "commit_issue_patterns": [
+      "使用issue引用格式",
+      "提交信息包含issue编号"
+    ],
+    "issue_creation_patterns": [
+      "有issue跟踪"
+    ],
+    "assignee_patterns": [
+      "issue有负责人"
+    ],
+    "analyzed_at": "2025-07-20T21:15:33.879627"
+  }
+]
