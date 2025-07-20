@@ -4,7 +4,7 @@ from contextlib import asynccontextmanager
 import uvicorn
 
 from app.database import init_db
-from app.routers import projects, students, analytics, project_status, test_analysis
+from app.routers import projects, students, analytics, project_status, test_analysis, git_workflow
 
 
 @asynccontextmanager
@@ -31,7 +31,7 @@ app = FastAPI(
 # 配置CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:3000"],  # Vite默认端口
+    allow_origins=["http://localhost:5173", "http://localhost:5174", "http://localhost:3000"],  # Vite默认端口
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -43,6 +43,7 @@ app.include_router(students.router, prefix="/api/students", tags=["students"])
 app.include_router(analytics.router, prefix="/api/analytics", tags=["analytics"])
 app.include_router(project_status.router, prefix="/api", tags=["project-status"])
 app.include_router(test_analysis.router, prefix="/api", tags=["test-analysis"])
+app.include_router(git_workflow.router)
 
 
 @app.get("/")

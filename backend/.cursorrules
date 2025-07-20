@@ -140,7 +140,12 @@
 - 重要功能变更需要更新相关文档 
 - 项目的github仓库在 https://github.com/pq-25-summer/edashboard
 - 需要注意打开终端时默认的目录是项目根
+    - 需要使用python时，默认使用backend目录下的venv环境
     - 启动后端项目时需要先进入backend目录
     - 启动前端项目时需要先进入frontend目录
+    - 执行 scripts/ 目录下的脚本时，可以在项目根目录下
 - fastapi 的服务在开发模式下有热重载能力，一般调整不需要重启服务
 - 对github进行写操作，如回复issue时，可以使用gh客户端
+- 当我提及 issue时，默认指 项目的 github issue
+- 项目配置中定义了要跟踪的学员项目的本地路径
+  - 假设项目本地根目录是 repos,则目录结构是 repos/{owner}/{repo}

@@ -110,10 +110,71 @@ async def init_db():
                 has_requirements_txt BOOLEAN DEFAULT FALSE,
                 has_dockerfile BOOLEAN DEFAULT FALSE,
                 quality_score INTEGER DEFAULT 0,
+                -- Git工作流程相关字段
+                workflow_style VARCHAR(50),
+                workflow_score DECIMAL(5,2) DEFAULT 0.0,
+                total_branches INTEGER DEFAULT 0,
+                feature_branches INTEGER DEFAULT 0,
+                hotfix_branches INTEGER DEFAULT 0,
+                merge_commits INTEGER DEFAULT 0,
+                rebase_commits INTEGER DEFAULT 0,
+                uses_feature_branches BOOLEAN DEFAULT FALSE,
+                uses_main_branch_merges BOOLEAN DEFAULT FALSE,
+                uses_rebase BOOLEAN DEFAULT FALSE,
+                uses_pull_requests BOOLEAN DEFAULT FALSE,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
         """)
+        
+        # 添加Git工作流程字段（如果不存在）
+        try:
+            await conn.execute("""
+                ALTER TABLE project_statuses 
+                ADD COLUMN IF NOT EXISTS workflow_style VARCHAR(50)
+            """)
+            await conn.execute("""
+                ALTER TABLE project_statuses 
+                ADD COLUMN IF NOT EXISTS workflow_score DECIMAL(5,2) DEFAULT 0.0
+            """)
+            await conn.execute("""
+                ALTER TABLE project_statuses 
+                ADD COLUMN IF NOT EXISTS total_branches INTEGER DEFAULT 0
+            """)
+            await conn.execute("""
+                ALTER TABLE project_statuses 
+                ADD COLUMN IF NOT EXISTS feature_branches INTEGER DEFAULT 0
+            """)
+            await conn.execute("""
+                ALTER TABLE project_statuses 
+                ADD COLUMN IF NOT EXISTS hotfix_branches INTEGER DEFAULT 0
+            """)
+            await conn.execute("""
+                ALTER TABLE project_statuses 
+                ADD COLUMN IF NOT EXISTS merge_commits INTEGER DEFAULT 0
+            """)
+            await conn.execute("""
+                ALTER TABLE project_statuses 
+                ADD COLUMN IF NOT EXISTS rebase_commits INTEGER DEFAULT 0
+            """)
+            await conn.execute("""
+                ALTER TABLE project_statuses 
+                ADD COLUMN IF NOT EXISTS uses_feature_branches BOOLEAN DEFAULT FALSE
+            """)
+            await conn.execute("""
+                ALTER TABLE project_statuses 
+                ADD COLUMN IF NOT EXISTS uses_main_branch_merges BOOLEAN DEFAULT FALSE
+            """)
+            await conn.execute("""
+                ALTER TABLE project_statuses 
+                ADD COLUMN IF NOT EXISTS uses_rebase BOOLEAN DEFAULT FALSE
+            """)
+            await conn.execute("""
+                ALTER TABLE project_statuses 
+                ADD COLUMN IF NOT EXISTS uses_pull_requests BOOLEAN DEFAULT FALSE
+            """)
+        except Exception as e:
+            print(f"添加Git工作流程字段时出错（可能已存在）: {e}")
         
         await conn.commit()
 

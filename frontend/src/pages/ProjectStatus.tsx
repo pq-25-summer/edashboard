@@ -23,6 +23,18 @@ interface ProjectStatus {
   has_requirements_txt: boolean;
   has_dockerfile: boolean;
   quality_score: number;
+  // Git工作流程相关字段
+  workflow_style?: string;
+  workflow_score: number;
+  total_branches: number;
+  feature_branches: number;
+  hotfix_branches: number;
+  merge_commits: number;
+  rebase_commits: number;
+  uses_feature_branches: boolean;
+  uses_main_branch_merges: boolean;
+  uses_rebase: boolean;
+  uses_pull_requests: boolean;
   created_at: string;
   updated_at: string;
 }
@@ -132,6 +144,23 @@ const ProjectStatus: React.FC = () => {
       'Web': 'success'
     };
     return colors[language] || 'light';
+  };
+
+  const getWorkflowStyleColor = (style: string) => {
+    const colors: Record<string, string> = {
+      'Git Flow (完整工作流)': 'success',
+      'Feature Branch (功能分支)': 'primary',
+      'Trunk Based (主干开发)': 'warning',
+      'Simple (简单模式)': 'secondary'
+    };
+    return colors[style] || 'light';
+  };
+
+  const getScoreColor = (score: number) => {
+    if (score >= 60) return 'success';
+    if (score >= 40) return 'primary';
+    if (score >= 20) return 'warning';
+    return 'secondary';
   };
 
   if (loading) {
@@ -350,6 +379,32 @@ const ProjectStatus: React.FC = () => {
                         {status.has_package_json && <Badge bg="primary" className="me-1">package.json</Badge>}
                         {status.has_requirements_txt && <Badge bg="info" className="me-1">requirements.txt</Badge>}
                         {status.has_dockerfile && <Badge bg="secondary" className="me-1">Docker</Badge>}
+                      </div>
+                    </div>
+                    
+                    {/* Git工作流程信息 */}
+                    <div className="mb-2">
+                      <strong>Git工作流程:</strong>
+                      <div className="small">
+                        <div className="mb-1">
+                          <Badge bg={getWorkflowStyleColor(status.workflow_style || 'Simple')} className="me-1">
+                            {status.workflow_style || 'Simple'}
+                          </Badge>
+                          <Badge bg={getScoreColor(status.workflow_score)}>
+                            {status.workflow_score.toFixed(1)}分
+                          </Badge>
+                        </div>
+                        <div className="text-muted">
+                          分支: {status.total_branches} | 
+                          功能分支: {status.feature_branches} | 
+                          合并: {status.merge_commits}
+                        </div>
+                        <div className="mt-1">
+                          {status.uses_feature_branches && <Badge bg="success" className="me-1">功能分支</Badge>}
+                          {status.uses_main_branch_merges && <Badge bg="info" className="me-1">分支合并</Badge>}
+                          {status.uses_rebase && <Badge bg="warning" className="me-1">Rebase</Badge>}
+                          {status.uses_pull_requests && <Badge bg="primary" className="me-1">Pull Request</Badge>}
+                        </div>
                       </div>
                     </div>
                     

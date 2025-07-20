@@ -116,6 +116,18 @@ class ProjectStatusBase(BaseModel):
     has_requirements_txt: bool = False
     has_dockerfile: bool = False
     quality_score: int = 0
+    # Git工作流程相关字段
+    workflow_style: Optional[str] = None
+    workflow_score: float = 0.0
+    total_branches: int = 0
+    feature_branches: int = 0
+    hotfix_branches: int = 0
+    merge_commits: int = 0
+    rebase_commits: int = 0
+    uses_feature_branches: bool = False
+    uses_main_branch_merges: bool = False
+    uses_rebase: bool = False
+    uses_pull_requests: bool = False
 
 
 class ProjectStatusCreate(ProjectStatusBase):

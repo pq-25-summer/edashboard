@@ -56,6 +56,13 @@ const Navigation: React.FC = () => {
             >
               测试分析
             </Nav.Link>
+            <Nav.Link 
+              as={Link} 
+              to="/git-workflow" 
+              active={location.pathname === '/git-workflow'}
+            >
+              Git工作流程
+            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

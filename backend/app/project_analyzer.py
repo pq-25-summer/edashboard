@@ -13,6 +13,7 @@ import logging
 
 from app.config import settings
 from app.language_analyzer import LanguageAnalyzer
+from app.git_workflow_analyzer import GitWorkflowAnalyzer
 from app.database import db
 
 
@@ -20,6 +21,7 @@ class ProjectAnalyzer:
     def __init__(self):
         self.repos_dir = Path(settings.local_repos_dir)
         self.language_analyzer = LanguageAnalyzer()
+        self.git_workflow_analyzer = GitWorkflowAnalyzer(str(self.repos_dir))
         self.setup_logging()
     
     def setup_logging(self):
@@ -64,6 +66,9 @@ class ProjectAnalyzer:
             # 获取Git信息
             git_info = await self.get_git_info(repo_path)
             
+            # 分析Git工作流程
+            workflow_info = await self.analyze_git_workflow(project_key, repo_path)
+            
             # 计算质量评分
             quality_score = self.calculate_quality_score(structure, git_info)
             
@@ -73,6 +78,7 @@ class ProjectAnalyzer:
                 'structure': structure,
                 'tech_stack': tech_stack,
                 'git_info': git_info,
+                'workflow_info': workflow_info,
                 'quality_score': quality_score,
                 'analysis_time': datetime.now().isoformat()
             }
@@ -182,6 +188,54 @@ class ProjectAnalyzer:
             self.logger.error(f"分析项目结构失败 {repo_path}: {e}")
         
         return analysis
+    
+    async def analyze_git_workflow(self, project_key: str, repo_path: Path) -> Dict:
+        """分析Git工作流程"""
+        try:
+            # 从项目路径提取owner/repo
+            parts = project_key.split('/')
+            if len(parts) >= 2:
+                owner = parts[0]
+                repo = parts[1]
+                github_url = f"https://github.com/{owner}/{repo}"
+                
+                # 使用Git工作流程分析器
+                workflow_stats = self.git_workflow_analyzer.analyze_project(project_key, github_url)
+                
+                if workflow_stats:
+                    return {
+                        'workflow_style': workflow_stats.workflow_style,
+                        'workflow_score': workflow_stats.workflow_score,
+                        'total_branches': workflow_stats.total_branches,
+                        'feature_branches': workflow_stats.feature_branches,
+                        'hotfix_branches': workflow_stats.hotfix_branches,
+                        'merge_commits': workflow_stats.merge_commits,
+                        'rebase_commits': workflow_stats.rebase_commits,
+                        'uses_feature_branches': workflow_stats.uses_feature_branches,
+                        'uses_main_branch_merges': workflow_stats.uses_main_branch_merges,
+                        'uses_rebase': workflow_stats.uses_rebase,
+                        'uses_pull_requests': workflow_stats.uses_pull_requests
+                    }
+                else:
+                    self.logger.warning(f"Git工作流程分析失败: {project_key}")
+            
+        except Exception as e:
+            self.logger.error(f"分析Git工作流程失败 {project_key}: {e}")
+        
+        # 返回默认值
+        return {
+            'workflow_style': 'Simple (简单模式)',
+            'workflow_score': 0.0,
+            'total_branches': 0,
+            'feature_branches': 0,
+            'hotfix_branches': 0,
+            'merge_commits': 0,
+            'rebase_commits': 0,
+            'uses_feature_branches': False,
+            'uses_main_branch_merges': False,
+            'uses_rebase': False,
+            'uses_pull_requests': False
+        }
     
     async def get_git_info(self, repo_path: Path) -> Dict:
         """获取Git信息"""

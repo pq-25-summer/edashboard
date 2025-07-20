@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     github_api_base_url: str = "https://api.github.com"
     
     # 本地仓库配置
-    local_repos_dir: str = "/Users/mars/jobs/pq/repos"
+    local_repos_dir: str
     
     # 应用配置
     app_name: str = "软件工程课看板系统"
