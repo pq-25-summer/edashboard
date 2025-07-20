@@ -142,4 +142,24 @@ class ProjectStatusSummary(BaseModel):
     avg_project_size: float
     avg_commit_count: float
     avg_contributors: float
-    projects_by_score: dict 
+    projects_by_score: dict
+
+
+class ProjectTestAnalysis(BaseModel):
+    project_name: str
+    has_unit_tests: bool
+    has_test_plan: bool
+    has_test_documentation: bool
+    uses_tdd: bool
+    test_coverage: float
+    test_files: List[str] = []
+    test_directories: List[str] = []
+    test_frameworks: List[str] = []
+    test_metrics: dict
+    analysis_time: Optional[datetime] = None
+
+
+class TestAnalysisSummary(BaseModel):
+    summary: dict
+    framework_distribution: List[dict]
+    coverage_distribution: List[dict] 

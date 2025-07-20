@@ -1,94 +1,73 @@
 #!/usr/bin/env python3
 """
-测试API功能
+API测试脚本
+测试测试分析相关的API端点
 """
 
-import asyncio
-import sys
-import os
-from pathlib import Path
+import requests
+import json
+import time
 
-# 添加项目根目录到Python路径
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-sys.path.append(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'backend'))
-
-from app.project_analyzer import ProjectAnalyzer
-from app.language_analyzer import LanguageAnalyzer
-
-
-async def test_project_analyzer():
-    """测试项目分析器"""
-    print("🔍 测试项目分析器...")
+def test_api():
+    base_url = "http://localhost:8000/api"
     
-    try:
-        analyzer = ProjectAnalyzer()
-        projects = await analyzer.analyze_all_projects()
-        
-        print(f"✅ 成功分析 {len(projects)} 个项目")
-        
-        # 检查第一个项目的技术栈
-        if projects:
-            first_project = list(projects.keys())[0]
-            project_data = projects[first_project]
-            
-            print(f"\n📁 第一个项目: {first_project}")
-            print(f"  技术栈: {project_data.get('tech_stack', {}).get('summary', {})}")
-            
-            return True
-        else:
-            print("❌ 没有找到项目")
-            return False
-            
-    except Exception as e:
-        print(f"❌ 项目分析器测试失败: {e}")
-        import traceback
-        traceback.print_exc()
-        return False
-
-
-async def test_language_analyzer():
-    """测试语言分析器"""
-    print("\n🔍 测试语言分析器...")
-    
-    try:
-        analyzer = LanguageAnalyzer()
-        
-        # 测试当前项目
-        current_project = Path("/Users/mars/jobs/pq/edashboard")
-        tech_stack = analyzer.analyze_project_tech_stack(current_project)
-        
-        print(f"✅ 成功分析当前项目")
-        print(f"  主要语言: {tech_stack['summary'].get('primary_language', 'Unknown')}")
-        print(f"  框架数量: {tech_stack['summary'].get('framework_count', 0)}")
-        print(f"  使用AI: {tech_stack['summary'].get('has_ai', False)}")
-        
-        return True
-        
-    except Exception as e:
-        print(f"❌ 语言分析器测试失败: {e}")
-        import traceback
-        traceback.print_exc()
-        return False
-
-
-async def main():
-    """主函数"""
-    print("🚀 API功能测试")
+    print("=" * 50)
+    print("测试分析API测试")
     print("=" * 50)
     
-    # 测试项目分析器
-    project_test = await test_project_analyzer()
+    # 等待服务启动
+    print("等待服务启动...")
+    time.sleep(3)
     
-    # 测试语言分析器
-    language_test = await test_language_analyzer()
+    # 测试健康检查
+    try:
+        response = requests.get("http://localhost:8000/health")
+        print(f"健康检查: {response.status_code} - {response.json()}")
+    except Exception as e:
+        print(f"健康检查失败: {e}")
+        return
     
-    if project_test and language_test:
-        print("\n✅ 所有测试通过!")
-        print("\n现在可以启动后端服务:")
-        print("cd backend && uvicorn main:app --reload")
-    else:
-        print("\n❌ 部分测试失败，请检查错误信息")
-
+    # 测试获取摘要
+    try:
+        response = requests.get(f"{base_url}/test-analysis/summary")
+        print(f"获取摘要: {response.status_code}")
+        if response.status_code == 200:
+            data = response.json()
+            print("摘要数据:")
+            print(json.dumps(data, indent=2, ensure_ascii=False))
+        else:
+            print(f"错误响应: {response.text}")
+    except Exception as e:
+        print(f"获取摘要失败: {e}")
+    
+    # 测试获取项目列表
+    try:
+        response = requests.get(f"{base_url}/test-analysis/projects")
+        print(f"\n获取项目列表: {response.status_code}")
+        if response.status_code == 200:
+            data = response.json()
+            print(f"找到 {len(data)} 个项目")
+            if data:
+                print("前3个项目:")
+                for i, project in enumerate(data[:3]):
+                    print(f"  {i+1}. {project.get('project_name', 'Unknown')}")
+        else:
+            print(f"错误响应: {response.text}")
+    except Exception as e:
+        print(f"获取项目列表失败: {e}")
+    
+    # 测试分析所有项目
+    try:
+        print(f"\n开始分析所有项目...")
+        response = requests.post(f"{base_url}/test-analysis/analyze-all")
+        print(f"分析结果: {response.status_code}")
+        if response.status_code == 200:
+            data = response.json()
+            print(f"分析完成: {data.get('message', 'Unknown')}")
+        else:
+            print(f"错误响应: {response.text}")
+    except Exception as e:
+        print(f"分析失败: {e}")
 
 if __name__ == "__main__":
-    asyncio.run(main()) 
+    test_api() 

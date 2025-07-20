@@ -6,6 +6,7 @@ import Projects from './pages/Projects'
 import Students from './pages/Students'
 import ProjectStatus from './pages/ProjectStatus'
 import Analytics from './pages/Analytics'
+import TestAnalysis from './pages/TestAnalysis'
 import './App.css'
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
           <Route path="/students" element={<Students />} />
           <Route path="/project-status" element={<ProjectStatus />} />
           <Route path="/analytics" element={<Analytics />} />
+          <Route path="/test-analysis" element={<TestAnalysis />} />
         </Routes>
       </Container>
     </div>

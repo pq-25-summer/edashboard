@@ -49,6 +49,13 @@ const Navigation: React.FC = () => {
             >
               技术分析
             </Nav.Link>
+            <Nav.Link 
+              as={Link} 
+              to="/test-analysis" 
+              active={location.pathname === '/test-analysis'}
+            >
+              测试分析
+            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
